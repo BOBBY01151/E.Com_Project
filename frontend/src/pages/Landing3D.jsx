@@ -21,11 +21,11 @@ const Landing3D = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-pink-900 via-purple-900 to-blue-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold text-white mb-2">Loading 3D Experience</h2>
-          <p className="text-gray-300">Preparing your immersive journey...</p>
+          <h2 className="text-2xl font-bold text-white mb-2">Loading 3D Fashion Experience</h2>
+          <p className="text-gray-300">Preparing your virtual shopping journey...</p>
         </div>
       </div>
     )
@@ -42,10 +42,10 @@ const Landing3D = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">3D</span>
+              <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">F</span>
               </div>
-              <span className="text-xl font-bold text-white">TechVision</span>
+              <span className="text-xl font-bold text-white">Fashion3D</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -62,9 +62,9 @@ const Landing3D = () => {
                 </a>
                 <Link 
                   to="/products" 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                  className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
                 >
-                  Explore
+                  Shop Now
                 </Link>
               </div>
             )}
@@ -107,10 +107,10 @@ const Landing3D = () => {
                 </a>
                 <Link 
                   to="/products" 
-                  className="block px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium"
+                  className="block px-3 py-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Explore
+                  Shop Now
                 </Link>
               </div>
             </div>

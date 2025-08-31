@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowDown, Sparkles, Zap, Target } from 'lucide-react'
+import { ArrowDown, Sparkles, Zap, Target, ShoppingBag, Star, TrendingUp } from 'lucide-react'
 
 const ScrollContent = () => {
   const titleRef = useRef()
@@ -30,12 +30,12 @@ const ScrollContent = () => {
               opacity: Math.max(0.3, 1 - scrollY * 0.002)
             }}
           >
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Future of
+            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+              Fashion Forward
             </span>
             <br />
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Technology
+              3D Shopping
             </span>
           </h1>
           
@@ -47,8 +47,8 @@ const ScrollContent = () => {
               opacity: Math.max(0.3, 1 - scrollY * 0.0015)
             }}
           >
-            Experience the next generation of interactive 3D web experiences. 
-            Scroll to explore our cutting-edge technology.
+            Experience the future of online shopping with our interactive 3D fashion models. 
+            See how clothes look from every angle as you scroll.
           </p>
           
           <div 
@@ -59,16 +59,16 @@ const ScrollContent = () => {
               opacity: Math.max(0.3, 1 - scrollY * 0.001)
             }}
           >
-            <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+            <button className="group bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
               <span className="flex items-center gap-2">
-                Get Started
-                <Zap className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                Shop Now
+                <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </span>
             </button>
             
             <button className="group border-2 border-white/30 hover:border-white/60 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white/10">
               <span className="flex items-center gap-2">
-                Learn More
+                View Collection
                 <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
               </span>
             </button>
@@ -94,22 +94,22 @@ const ScrollContent = () => {
           >
             <FeatureCard
               icon={<Sparkles className="w-8 h-8" />}
-              title="Interactive 3D"
-              description="Immerse yourself in stunning 3D environments with real-time interactions and smooth animations."
+              title="3D Try-On"
+              description="See how clothes fit and look from every angle with our interactive 3D models. No more guessing!"
+              color="from-pink-500 to-purple-500"
+            />
+            
+            <FeatureCard
+              icon={<TrendingUp className="w-8 h-8" />}
+              title="Trending Styles"
+              description="Discover the latest fashion trends with our curated collections and real-time style updates."
               color="from-blue-500 to-cyan-500"
             />
             
             <FeatureCard
-              icon={<Zap className="w-8 h-8" />}
-              title="Performance Optimized"
-              description="Built with modern web technologies for smooth 60fps performance across all devices."
-              color="from-purple-500 to-pink-500"
-            />
-            
-            <FeatureCard
-              icon={<Target className="w-8 h-8" />}
-              title="Responsive Design"
-              description="Seamless experience across desktop, tablet, and mobile devices with adaptive layouts."
+              icon={<Star className="w-8 h-8" />}
+              title="Premium Quality"
+              description="Shop with confidence knowing all our products are carefully selected for quality and style."
               color="from-green-500 to-emerald-500"
             />
           </div>
@@ -120,14 +120,19 @@ const ScrollContent = () => {
       <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black/40 to-purple-900/40 backdrop-blur-sm">
         <div className="text-center max-w-4xl mx-auto px-4">
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Ready to Experience the Future?
+            Ready to Transform Your Style?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            Join thousands of users already exploring the next generation of web technology.
+            Join thousands of fashion-forward shoppers already experiencing the future of online retail.
           </p>
-          <button className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-12 py-4 rounded-full font-semibold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-            Start Your Journey
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-12 py-4 rounded-full font-semibold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+              Start Shopping
+            </button>
+            <button className="border-2 border-white/30 hover:border-white/60 text-white px-12 py-4 rounded-full font-semibold text-xl transition-all duration-300 hover:bg-white/10">
+              Learn More
+            </button>
+          </div>
         </div>
       </section>
     </div>
