@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 // Pages
 import Home from './pages/Home'
+import Landing3D from './pages/Landing3D'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Products from './pages/Products'
@@ -48,6 +49,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/3d" element={<Landing3D />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<Products />} />

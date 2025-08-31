@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react'
+import { ShoppingCart, User, Menu, X, LogOut, Box } from 'lucide-react'
 import { logout } from '../store/slices/authSlice'
 
 const Header = () => {
@@ -36,6 +36,10 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-700 hover:text-primary-600 transition-colors">
               Home
+            </Link>
+            <Link to="/3d" className="text-gray-700 hover:text-primary-600 transition-colors flex items-center gap-1">
+              <Box size={16} />
+              3D Experience
             </Link>
             <Link to="/products" className="text-gray-700 hover:text-primary-600 transition-colors">
               Products
@@ -144,6 +148,14 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
+              </Link>
+              <Link
+                to="/3d"
+                className="text-gray-700 hover:text-primary-600 transition-colors flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Box size={16} />
+                3D Experience
               </Link>
               <Link
                 to="/products"
