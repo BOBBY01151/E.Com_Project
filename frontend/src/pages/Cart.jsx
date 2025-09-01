@@ -32,7 +32,7 @@ const Cart = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
             <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
             <Link
-              to="/products"
+              to="/shop"
               className="btn-primary inline-flex items-center"
             >
               Start Shopping
@@ -142,7 +142,7 @@ const Cart = () => {
 
               <div className="mt-4 text-center">
                 <Link
-                  to="/products"
+                  to="/shop"
                   className="text-primary-600 hover:text-primary-700 text-sm"
                 >
                   Continue Shopping

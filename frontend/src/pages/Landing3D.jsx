@@ -61,7 +61,7 @@ const Landing3D = () => {
                   Contact
                 </a>
                 <Link 
-                  to="/products" 
+                  to="/shop" 
                   className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
                 >
                   Shop Now
@@ -106,7 +106,7 @@ const Landing3D = () => {
                   Contact
                 </a>
                 <Link 
-                  to="/products" 
+                  to="/shop" 
                   className="block px-3 py-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >

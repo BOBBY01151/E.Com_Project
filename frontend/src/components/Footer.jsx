@@ -41,8 +41,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/products" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
-                  Products
+                <Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
+                  Shop
                 </Link>
               </li>
               <li>
@@ -63,22 +63,22 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-foreground">Categories</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/products?category=shoes" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
                   Shoes
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=tshirts" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
                   T-Shirts
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=trousers" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
                   Trousers
                 </Link>
               </li>
               <li>
-                <Link to="/products?category=accessories" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
+                <Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
                   Accessories
                 </Link>
               </li>

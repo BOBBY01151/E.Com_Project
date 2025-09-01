@@ -38,7 +38,11 @@ const heroImages = [
   }
 ];
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onShopClick?: () => void;
+}
+
+export function HeroSection({ onShopClick }: HeroSectionProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -118,6 +122,7 @@ export function HeroSection() {
                 <Button 
                   size="lg" 
                   className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold"
+                  onClick={onShopClick}
                 >
                   <ShoppingBag className="mr-2 h-5 w-5" />
                   Shop Collection

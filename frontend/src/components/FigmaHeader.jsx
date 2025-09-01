@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { ShoppingBag, User, Search, Menu } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const FigmaHeader = () => {
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -20,6 +21,7 @@ const FigmaHeader = () => {
   }, [])
 
   const navItems = [
+    { name: 'Shop', href: '/shop' },
     { name: 'Collections', href: '#collections' },
     { name: 'Featured', href: '#featured' },
     { name: 'Testimonials', href: '#testimonials' },
@@ -68,37 +70,59 @@ const FigmaHeader = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <a 
-                key={item.name}
-                href={item.href}
-                onClick={(e) => {
-                  if (!item.href.startsWith('#')) return
-                  e.preventDefault()
-                  const element = document.querySelector(item.href)
-                  if (element) {
-                    const headerHeight = 80
-                    const elementPosition = element.getBoundingClientRect().top
-                    const offsetPosition = elementPosition + window.scrollY - headerHeight
-                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-                  }
-                }}
-                className={`
-                  font-medium transition-all duration-300 hover:scale-110 relative group cursor-pointer
-                  ${isScrolled ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}
-                `}
-                style={{
-                  transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
-                  textShadow: isScrolled 
-                    ? 'none' 
-                    : '0 1px 3px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2)',
-                  color: isScrolled ? '#000' : '#fff'
-                }}
-              >
-                {item.name}
-                <div 
-                  className={`absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 ${isScrolled ? 'bg-black' : 'bg-white'}`}
-                />
-              </a>
+              item.href.startsWith('#') ? (
+                <a 
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const element = document.querySelector(item.href)
+                    if (element) {
+                      const headerHeight = 80
+                      const elementPosition = element.getBoundingClientRect().top
+                      const offsetPosition = elementPosition + window.scrollY - headerHeight
+                      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+                    }
+                  }}
+                  className={`
+                    font-medium transition-all duration-300 hover:scale-110 relative group cursor-pointer
+                    ${isScrolled ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}
+                  `}
+                  style={{
+                    transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
+                    textShadow: isScrolled 
+                      ? 'none' 
+                      : '0 1px 3px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2)',
+                    color: isScrolled ? '#000' : '#fff'
+                  }}
+                >
+                  {item.name}
+                  <div 
+                    className={`absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 ${isScrolled ? 'bg-black' : 'bg-white'}`}
+                  />
+                </a>
+              ) : (
+                <Link 
+                  key={item.name}
+                  to={item.href}
+                  className={`
+                    font-medium transition-all duration-300 hover:scale-110 relative group cursor-pointer
+                    ${isScrolled ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}
+                  `}
+                  style={{
+                    transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
+                    textShadow: isScrolled 
+                      ? 'none' 
+                      : '0 1px 3px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2)',
+                    color: isScrolled ? '#000' : '#fff'
+                  }}
+                >
+                  {item.name}
+                  <div 
+                    className={`absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300 ${isScrolled ? 'bg-black' : 'bg-white'}`}
+                  />
+                </Link>
+              )
             ))}
           </nav>
 
@@ -120,22 +144,28 @@ const FigmaHeader = () => {
               size="icon"
               className={`transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
               style={{ color: isScrolled ? '#000' : '#fff' }}
+              asChild
             >
-              <User className="h-5 w-5" />
+              <Link to="/profile">
+                <User className="h-5 w-5" />
+              </Link>
             </Button>
             <Button 
               variant="ghost" 
               size="icon"
               className={`transition-all duration-300 hover:scale-110 relative group ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
               style={{ color: isScrolled ? '#000' : '#fff' }}
+              asChild
             >
-              <ShoppingBag className="h-5 w-5" />
-              <div 
-                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
-                style={{ transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})` }}
-              >
-                2
-              </div>
+              <Link to="/shop">
+                <ShoppingBag className="h-5 w-5" />
+                <div 
+                  className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
+                  style={{ transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})` }}
+                >
+                  2
+                </div>
+              </Link>
             </Button>
             <Button 
               variant="ghost" 

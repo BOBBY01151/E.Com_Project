@@ -12,11 +12,11 @@ import Home from './pages/Home'
 import Landing3D from './pages/Landing3D'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Profile from './pages/Profile'
+import ShopCollection from './pages/ShopCollection'
 import Orders from './pages/Orders'
 import OrderDetail from './pages/OrderDetail'
 import AdminDashboard from './pages/AdminDashboard'
@@ -108,7 +108,7 @@ function App() {
           <Route path="/3d" element={<Landing3D />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/shop" element={<ShopCollection />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           

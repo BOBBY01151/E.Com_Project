@@ -168,7 +168,7 @@ const Home = () => {
                     className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold"
                     asChild
                   >
-                    <Link to="/products">
+                    <Link to="/shop">
                       <ShoppingBag className="mr-2 h-5 w-5" />
                       Shop Collection
                     </Link>
@@ -370,7 +370,7 @@ const Home = () => {
               className="border-black text-black hover:bg-black hover:text-white px-8"
               asChild
             >
-              <Link to="/products">
+              <Link to="/shop">
                 View All Products
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
@@ -461,7 +461,7 @@ const Home = () => {
               className="border-black text-black hover:bg-black hover:text-white px-8"
               asChild
             >
-              <Link to="/products">
+              <Link to="/shop">
                 View All Collections
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
@@ -500,7 +500,7 @@ const Home = () => {
               className="px-8 py-4 text-lg font-semibold hover-lift"
               asChild
             >
-              <Link to="/products">
+              <Link to="/shop">
                 View All Products
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
@@ -573,7 +573,7 @@ const Home = () => {
               className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg font-semibold"
               asChild
             >
-              <Link to="/products">
+              <Link to="/shop">
                 Discover Our Collection
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
@@ -638,7 +638,7 @@ const Home = () => {
                 <li><a href="#collections" className="text-gray-400 hover:text-white transition-colors">Collections</a></li>
                 <li><a href="#featured" className="text-gray-400 hover:text-white transition-colors">Featured</a></li>
                 <li><a href="#testimonials" className="text-gray-400 hover:text-white transition-colors">Testimonials</a></li>
-                <li><Link to="/products" className="text-gray-400 hover:text-white transition-colors">All Products</Link></li>
+                <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">All Products</Link></li>
               </ul>
             </div>
 

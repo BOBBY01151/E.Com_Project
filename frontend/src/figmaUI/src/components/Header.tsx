@@ -4,9 +4,16 @@ import { Button } from "./ui/button";
 import { ShoppingBag, User, Search, Menu } from "lucide-react";
 import { useEffect, useState } from 'react';
 
+
 export function Header() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  const handleProfileClick = () => {
+    // In a real app, this would navigate to the profile page
+    // For demo purposes, we'll just show an alert
+    alert('Navigate to Profile Page - In a real app, this would use your router (React Router, Next.js router, etc.)');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,8 +145,9 @@ export function Header() {
             <Button 
               variant="ghost" 
               size="icon"
+              onClick={handleProfileClick}
               className={`
-                transition-all duration-300 hover:scale-110
+                transition-all duration-300 hover:scale-110 relative group
                 ${isScrolled 
                   ? 'text-black hover:bg-black/10' 
                   : 'text-white hover:bg-white/20'
@@ -147,6 +155,13 @@ export function Header() {
               `}
             >
               <User className="h-5 w-5" />
+              {/* Profile indicator */}
+              <div 
+                className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white opacity-80 group-hover:opacity-100 transition-opacity"
+                style={{
+                  transform: `scale(${1 + scrollProgress * 0.2})`,
+                }}
+              />
             </Button>
             
             <Button 
@@ -229,6 +244,8 @@ export function Header() {
           opacity: isScrolled ? 0 : scrollProgress * 0.5,
         }}
       />
+
+
     </header>
   );
 }
