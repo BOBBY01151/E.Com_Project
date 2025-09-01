@@ -5,20 +5,13 @@ import { getFeaturedProducts } from '../store/slices/productSlice'
 import ModernProductCard from '../components/ModernProductCard'
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
+import { Badge } from '../components/ui/badge'
 import { 
   ArrowRight, 
   Star, 
   ShoppingBag,
-  TrendingUp,
-  Award,
-  Zap,
-  Truck,
-  Shield,
-  Clock,
   Heart,
-  Eye,
   ChevronRight,
-  Play,
   Facebook,
   Instagram,
   Twitter,
@@ -64,6 +57,46 @@ const Home = () => {
     }
   ]
 
+  // Sample products for the Comfort Meets Contemporary section
+  const sampleProducts = [
+    {
+      _id: 'sample-1',
+      name: 'Essential Black Tee',
+      price: 45,
+      image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwd2hpdGUlMjB0LXNoaXJ0JTIwbWluaW1hbCUyMGZhc2hpb258ZW58MXwxfHx8MTc1NjcwNDcwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    },
+    {
+      _id: 'sample-2',
+      name: 'Minimalist White Shirt',
+      price: 42,
+      image: 'https://images.unsplash.com/photo-1667544417110-403b89341112?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMHdoaXRlJTIwZmFzaGlvbiUyMG1vZGVsJTIwdC1zaGlydHxlbnwxfHx8fDE3NTY3MDQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    },
+    {
+      _id: 'sample-3',
+      name: 'Urban Gray Sweatshirt',
+      price: 48,
+      image: 'https://images.unsplash.com/photo-1693901257178-b5fcb8f036a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZmFzaGlvbiUyMGNsb3RoaW5nJTIwc3RvcmV8ZW58MXwxfHwxNzU2NzA0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    },
+    {
+      _id: 'sample-4',
+      name: 'Executive Black Trousers',
+      price: 120,
+      image: 'https://images.unsplash.com/photo-1615398264198-718da97f988d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBibGFjayUyMHRyb3VzZXJzJTIwbWVuJTIwZmFzaGlvbnxlbnwxfHx8fDE3NTY3MDQ3MDd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    },
+    {
+      _id: 'sample-5',
+      name: 'Casual Chino Pants',
+      price: 85,
+      image: 'https://images.unsplash.com/photo-1665672017097-205fe870657f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwYmxhY2slMjB0cm91c2VycyUyMHBhbnRzJTIwZmFzaGlvbnxlbnwxfHx8fDE3NTY3MDQ1ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    },
+    {
+      _id: 'sample-6',
+      name: 'Designer White Sneakers',
+      price: 180,
+      image: 'https://images.unsplash.com/photo-1642957464439-7c653ed1328c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHNuZWFrZXJzJTIwd2hpdGUlMjBiYWNrZ3JvdW5kfGVufDF8fHx8MTc1NjcwNDcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+    }
+  ]
+
   // Auto-rotate images every 5 seconds
   useEffect(() => {
     const imageInterval = setInterval(() => {
@@ -75,74 +108,11 @@ const Home = () => {
     return () => clearInterval(imageInterval)
   }, [heroImages.length])
 
-  const features = [
-    {
-      icon: Truck,
-      title: 'Free Shipping',
-      description: 'Free shipping on orders over $50',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      icon: Shield,
-      title: 'Quality Guarantee',
-      description: '30-day money-back guarantee',
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      icon: Clock,
-      title: '24/7 Support',
-      description: 'Round-the-clock customer support',
-      color: 'from-purple-500 to-purple-600'
-    }
-  ]
 
-  const collections = [
-    {
-      title: 'Athletic Shoes',
-      subtitle: 'Performance & Style',
-      description: 'Discover our premium collection of athletic footwear designed for ultimate comfort and performance.',
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      position: 'left'
-    },
-    {
-      title: 'Designer T-Shirts',
-      subtitle: 'Comfort Redefined',
-      description: 'Luxurious fabrics meet modern design in our exclusive t-shirt collection.',
-      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80',
-      position: 'right'
-    },
-    {
-      title: 'Formal Trousers',
-      subtitle: 'Elegance in Motion',
-      description: 'Perfectly tailored trousers that combine sophistication with contemporary style.',
-      image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      position: 'left'
-    }
-  ]
 
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      role: 'Verified Customer',
-      rating: 5,
-      comment: 'Amazing quality products and fast delivery. The attention to detail is incredible!',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
-    },
-    {
-      name: 'Mike Davis',
-      role: 'Verified Customer',
-      rating: 5,
-      comment: 'Great customer service and excellent product selection. Will definitely shop again!',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
-    },
-    {
-      name: 'Emily Chen',
-      role: 'Verified Customer',
-      rating: 5,
-      comment: 'Perfect fit and comfortable materials. Love my new purchases from LUXE!',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
-    }
-  ]
+
+
+
 
   return (
     <div className="min-h-screen">
@@ -321,92 +291,181 @@ const Home = () => {
         />
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Why Choose LUXE?
+      {/* Comfort Meets Contemporary Section */}
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <Badge variant="outline" className="mb-4 border-black text-black">
+              Premium Collection
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold text-black mb-6">
+              Comfort Meets
+              <span className="block">Contemporary Design</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We're committed to providing you with the best shopping experience
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Crafted from the finest materials, our products deliver unmatched comfort and style for the modern individual.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <Card key={index} className="card-glass hover-lift text-center p-8">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                    <Icon className="w-8 h-8 text-white" />
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            {sampleProducts.map((product, index) => (
+              <div
+                key={product._id}
+                className="group transition-all duration-700 opacity-100 translate-y-0"
+                style={{
+                  transitionDelay: `${index * 200}ms`
+                }}
+              >
+                <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]">
+                  {/* Product Image */}
+                  <div className="relative aspect-square overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
+                    {/* Quick Add Overlay */}
+                    <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <Button className="bg-white text-black hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                        <ShoppingBag className="w-4 h-4 mr-2" />
+                        Quick Add
+                      </Button>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </Card>
-              )
-            })}
+
+                  {/* Product Info */}
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-black mb-2">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl font-bold text-black">
+                          ${product.price}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Button 
+                      className="w-full bg-black text-white hover:bg-gray-800"
+                      size="lg"
+                    >
+                      Add to Cart
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* View All Button */}
+          <div className="text-center mt-16">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-black text-black hover:bg-black hover:text-white px-8"
+              asChild
+            >
+              <Link to="/products">
+                View All Products
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Collections Section */}
-      <section id="collections" className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Featured Collections
+      {/* Featured Collection Section - FigmaUI Style */}
+      <section id="collections" className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <Badge variant="outline" className="mb-4 border-black text-black">
+              Featured Collection
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold text-black mb-6">
+              Premium Fashion
+              <span className="block">Collection</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Explore our curated collections designed for the modern individual
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Discover our handpicked selection of premium t-shirts, elegant trousers, 
+              and luxury sneakers designed to elevate your everyday style.
             </p>
           </div>
 
-          <div className="space-y-16">
-            {collections.map((collection, index) => (
-              <div key={index} className={`flex flex-col ${collection.position === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12`}>
-                <div className="flex-1">
-                  <div className="relative overflow-hidden rounded-2xl">
-                    <img
-                      src={collection.image}
-                      alt={collection.title}
-                      className="w-full h-96 object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  </div>
-                </div>
-                
-                <div className="flex-1 space-y-6">
-                  <div>
-                    <h3 className="text-3xl font-bold text-foreground mb-2">
-                      {collection.title}
-                    </h3>
-                    <p className="text-lg text-primary font-medium mb-4">
-                      {collection.subtitle}
-                    </p>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      {collection.description}
-                    </p>
+          {/* Featured Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sampleProducts.slice(0, 3).map((product) => (
+              <div key={product._id} className="group cursor-pointer border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="relative overflow-hidden rounded-t-lg bg-gray-50">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  
+                  {/* Badges */}
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className="bg-black text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Featured
+                    </span>
                   </div>
                   
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    className="group"
-                    asChild
+                  {/* Wishlist Button */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-4 right-4 bg-white/80 hover:bg-white"
                   >
-                    <Link to="/products">
-                      Explore Collection
-                      <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                    <Heart className="h-5 w-5" />
                   </Button>
+                </div>
+
+                {/* Product Info */}
+                <div className="p-6">
+                  <div className="mb-2">
+                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Premium
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-semibold text-lg text-black mb-2">
+                    {product.name}
+                  </h3>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl font-bold text-black">
+                        ${product.price}
+                      </span>
+                    </div>
+                    
+                    <Button size="sm" className="bg-black text-white hover:bg-gray-800">
+                      Add to Cart
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* View All Button */}
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-black text-black hover:bg-black hover:text-white px-8"
+              asChild
+            >
+              <Link to="/products">
+                View All Collections
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -450,42 +509,75 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              What Our Customers Say
+      {/* Redefining Fashion Section - FigmaUI Style */}
+      <section id="testimonials" className="relative py-24 bg-black text-white overflow-hidden">
+        {/* Top Fade Effect */}
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white via-white/90 via-white/70 via-white/40 to-transparent z-10"></div>
+        
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <Badge variant="outline" className="mb-4 border-white text-white">
+              Innovation
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Redefining
+              <span className="block">Fashion</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Don't just take our word for it - hear from our satisfied customers
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              We're not just creating clothes, we're crafting experiences. Every piece tells a story 
+              of innovation, sustainability, and timeless elegance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="card-glass p-8 hover-lift">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 text-lg leading-relaxed">
-                  "{testimonial.comment}"
-                </p>
-                <div className="flex items-center">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
-                  />
-                  <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="group text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-500">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 transition-all duration-500">
+                <Star className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Premium Quality</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Every garment is crafted with the finest materials, ensuring durability and comfort that lasts.
+              </p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="group text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-500">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 transition-all duration-500">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Sustainable Design</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Our commitment to eco-friendly practices ensures a better future for fashion and our planet.
+              </p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="group text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-500">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 transition-all duration-500">
+                <ShoppingBag className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Timeless Style</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Classic designs that transcend trends, creating a wardrobe that never goes out of style.
+              </p>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-16">
+            <Button 
+              size="lg"
+              className="bg-white text-black hover:bg-gray-200 px-8 py-6 text-lg font-semibold"
+              asChild
+            >
+              <Link to="/products">
+                Discover Our Collection
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

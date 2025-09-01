@@ -31,14 +31,18 @@ const FigmaHeader = () => {
         fixed top-0 w-full z-50 transition-all duration-500 ease-out
         ${isScrolled 
           ? 'bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-lg' 
-          : 'bg-transparent border-b border-transparent'
+          : 'bg-black/90 backdrop-blur-sm border-b border-white/20'
         }
       `}
       style={{ transform: `translateY(${scrollProgress * -10}px)` }}
     >
       <div 
-        className="absolute inset-0 bg-gradient-to-r from-white/90 to-gray-50/90 transition-opacity duration-500" 
-        style={{ opacity: scrollProgress * 0.8 }} 
+        className={`absolute inset-0 transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-gradient-to-r from-white/90 to-gray-50/90' 
+            : 'bg-gradient-to-r from-black/90 to-gray-900/90'
+        }`}
+        style={{ opacity: scrollProgress > 0.1 ? 1 : 0.9 }} 
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -50,7 +54,12 @@ const FigmaHeader = () => {
           >
             <h1 
               className={`text-2xl font-bold transition-all duration-300 ${isScrolled ? 'text-black' : 'text-white'}`}
-              style={{ textShadow: isScrolled ? 'none' : '0 2px 4px rgba(0,0,0,0.3)' }}
+              style={{ 
+                textShadow: isScrolled 
+                  ? 'none' 
+                  : '0 2px 4px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3)',
+                color: isScrolled ? '#000' : '#fff'
+              }}
             >
               LUXE
             </h1>
@@ -79,7 +88,10 @@ const FigmaHeader = () => {
                 `}
                 style={{
                   transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
-                  textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.2)'
+                  textShadow: isScrolled 
+                    ? 'none' 
+                    : '0 1px 3px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2)',
+                  color: isScrolled ? '#000' : '#fff'
                 }}
               >
                 {item.name}
@@ -99,6 +111,7 @@ const FigmaHeader = () => {
               variant="ghost" 
               size="icon" 
               className={`hidden sm:flex transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+              style={{ color: isScrolled ? '#000' : '#fff' }}
             >
               <Search className="h-5 w-5" />
             </Button>
@@ -106,6 +119,7 @@ const FigmaHeader = () => {
               variant="ghost" 
               size="icon"
               className={`transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+              style={{ color: isScrolled ? '#000' : '#fff' }}
             >
               <User className="h-5 w-5" />
             </Button>
@@ -113,6 +127,7 @@ const FigmaHeader = () => {
               variant="ghost" 
               size="icon"
               className={`transition-all duration-300 hover:scale-110 relative group ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+              style={{ color: isScrolled ? '#000' : '#fff' }}
             >
               <ShoppingBag className="h-5 w-5" />
               <div 
@@ -126,6 +141,7 @@ const FigmaHeader = () => {
               variant="ghost" 
               size="icon" 
               className={`md:hidden transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+              style={{ color: isScrolled ? '#000' : '#fff' }}
             >
               <Menu className="h-5 w-5" />
             </Button>
@@ -135,7 +151,11 @@ const FigmaHeader = () => {
 
       {/* Progress bar */}
       <div 
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-black via-gray-600 to-black transition-all duration-300"
+        className={`absolute bottom-0 left-0 h-0.5 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-gradient-to-r from-black via-gray-600 to-black' 
+            : 'bg-gradient-to-r from-white via-gray-300 to-white'
+        }`}
         style={{ width: `${scrollProgress * 100}%`, opacity: scrollProgress > 0.1 ? 1 : 0 }}
       />
     </header>
