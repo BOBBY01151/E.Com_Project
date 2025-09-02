@@ -41,8 +41,8 @@ const Header = () => {
               <Box size={16} />
               3D Experience
             </Link>
-            <Link to="/shop" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Shop
+            <Link to="/products" className="text-gray-700 hover:text-primary-600 transition-colors">
+              Products
             </Link>
             {user && (
               <>
@@ -158,11 +158,11 @@ const Header = () => {
                 3D Experience
               </Link>
               <Link
-                to="/shop"
+                to="/products"
                 className="text-gray-700 hover:text-primary-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Shop
+                Products
               </Link>
               {user && (
                 <>

@@ -21,10 +21,10 @@ const FigmaHeader = () => {
   }, [])
 
   const navItems = [
+    { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
-    { name: 'Collections', href: '#collections' },
-    { name: 'Featured', href: '#featured' },
-    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'AboutUs', href: '/aboutus' },
+    { name: 'ContactUs', href: '/contactus' },
   ]
 
   return (
