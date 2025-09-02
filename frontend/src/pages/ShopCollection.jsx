@@ -12,6 +12,8 @@ import {
   Star,
   Heart,
   ShoppingCart,
+  ShoppingBag,
+  ArrowRight,
   SlidersHorizontal,
   ChevronDown,
   ArrowUpDown,
@@ -32,7 +34,7 @@ const denimProducts = [
     size: ['28', '30', '32', '34', '36'],
     rating: 4.8,
     reviews: 124,
-    image: 'https://images.unsplash.com/photo-1732551146857-6e12616efb27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwZGVuaW0lMjBqZWFucyUyMGZhc2hpb258ZW58MXwxfHwxNzU2NzIxMDU2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: 'https://images.unsplash.com/photo-1732551146857-6e12616efb27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwZGVuaW0lMjBqZWFucyUyMGZhc2hpb258ZW58MXx8fHwxNzU2NzIxMDU2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: true,
     isFeatured: true,
     description: 'Premium 100% cotton raw denim with authentic Japanese selvedge construction.'
@@ -47,7 +49,7 @@ const denimProducts = [
     size: ['28', '30', '32', '34', '36', '38'],
     rating: 4.9,
     reviews: 89,
-    image: 'https://images.unsplash.com/photo-1755514838747-adfd34197d39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkZW5pbSUyMGNvbGxlY3Rpb258ZW58MXwxfHwxNzU2NzIxMDYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: 'https://images.unsplash.com/photo-1755514838747-adfd34197d39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBkZW5pbSUyMGNvbGxlY3Rpb258ZW58MXx8fHwxNzU2NzIxMDYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: false,
     isFeatured: true,
     description: 'Ultra-comfortable stretch denim with premium Italian fabric blend.'
@@ -56,62 +58,31 @@ const denimProducts = [
     id: 'denim-3',
     name: 'Designer Slim Fit',
     price: 159.99,
-    originalPrice: 199.99,
     category: 'denim',
     subcategory: 'jeans',
     color: 'Black',
-    size: ['29', '30', '31', '32', '33', '34'],
-    rating: 4.7,
-    reviews: 156,
-    image: 'https://images.unsplash.com/photo-1700844414385-0cedc33e4bd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGRlbmltJTIwamVhbnN8ZW58MXwxfHwxNzU2NzIxMDc5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    size: ['28', '30', '32', '34'],
+    rating: 4.6,
+    reviews: 67,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGRlbmltJTIwanNlYW5zJTIwbWVuJTIwZmFzaGlvbnxlbnwxfHx8fDE3NTY3MDQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: false,
     isFeatured: false,
-    description: 'Sleek black denim with modern slim-fit tailoring and premium finish.'
+    description: 'Modern slim fit design with premium stretch denim for ultimate comfort.'
   },
   {
     id: 'denim-4',
-    name: 'Vintage Denim Jacket',
-    price: 139.99,
+    name: 'Vintage Straight Leg',
+    price: 179.99,
     category: 'denim',
-    subcategory: 'jacket',
+    subcategory: 'jeans',
     color: 'Light Blue',
-    size: ['S', 'M', 'L', 'XL'],
-    rating: 4.6,
-    reviews: 73,
-    image: 'https://images.unsplash.com/photo-1563339387-0ba9892a3f84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwZGVuaW0lMjBqYWNrZXR8ZW58MXwxfHwxNzU2Njg4MjY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    isNew: false,
-    isFeatured: false,
-    description: 'Classic vintage-style denim jacket with authentic washed finish.'
-  },
-  {
-    id: 'denim-5',
-    name: 'Premium Straight Cut',
-    price: 199.99,
-    category: 'denim',
-    subcategory: 'jeans',
-    color: 'Indigo',
     size: ['30', '32', '34', '36', '38'],
-    rating: 4.8,
-    reviews: 112,
-    image: 'https://images.unsplash.com/photo-1558234200-3efd43232f08?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMGplYW5zJTIwZmFzaGlvbiUyMHN0b3JlfGVufDF8fHx8MTc1NjcyMTA2N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    isNew: true,
+    rating: 4.7,
+    reviews: 156,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwZGVuaW0lMjBqZWFucyUyMGZhc2hpb258ZW58MXx8fHwxNzU2NzA0NTg2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    isNew: false,
     isFeatured: true,
-    description: 'Timeless straight-cut denim with heavy-weight construction and classic fit.'
-  },
-  {
-    id: 'denim-6',
-    name: 'Artisan Crafted Denim',
-    price: 279.99,
-    category: 'denim',
-    subcategory: 'jeans',
-    color: 'Dark Indigo',
-    size: ['28', '30', '32', '34'],
-    rating: 5.0,
-    reviews: 34,
-    image: 'https://images.unsplash.com/photo-1732551146857-6e12616efb27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwZGVuaW0lMjBqZWFucyUyMGZhc2hpb258ZW58MXwxfHwxNzU2NzIxMDU2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    isNew: true,
-    isFeatured: true,
-    description: 'Hand-crafted premium denim with unique aging and finishing techniques.'
+    description: 'Classic straight leg fit with authentic vintage wash and premium construction.'
   }
 ]
 
@@ -119,80 +90,95 @@ const tshirtProducts = [
   {
     id: 'tshirt-1',
     name: 'Premium Cotton Tee',
-    price: 49.99,
-    category: 'tshirts',
-    subcategory: 'basic',
-    color: 'White',
-    size: ['XS', 'S', 'M', 'L', 'XL'],
-    rating: 4.7,
-    reviews: 203,
-    image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwdC1zaGlydCUyMGZhc2hpb258ZW58MXwxfHwxNzU2NzIxMDcwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    isNew: false,
-    isFeatured: false,
-    description: 'Ultra-soft 100% organic cotton with perfect fit and breathable comfort.'
-  },
-  {
-    id: 'tshirt-2',
-    name: 'Essential Black Tee',
     price: 45.99,
     category: 'tshirts',
     subcategory: 'basic',
-    color: 'Black',
-    size: ['XS', 'S', 'M', 'L', 'XL'],
+    color: 'White',
+    size: ['S', 'M', 'L', 'XL', 'XXL'],
     rating: 4.8,
-    reviews: 156,
-    image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwd2hpdGUlMjB0LXNoaXJ0JTIwbWluaW1hbCUyMGZhc2hpb258ZW58MXwxfHx8MTc1NjcxOTU3N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    isNew: false,
+    reviews: 234,
+    image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwd2hpdGUlMjB0LXNoaXJ0JTIwbWluaW1hbCUyMGZhc2hpb258ZW58MXwxfHx8MTc1NjcwNDcwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    isNew: true,
     isFeatured: true,
-    description: 'Classic black t-shirt with premium cotton blend and modern fit.'
+    description: 'Ultra-soft premium cotton t-shirt with perfect fit and durability.'
+  },
+  {
+    id: 'tshirt-2',
+    name: 'Minimalist Black Tee',
+    price: 42.99,
+    category: 'tshirts',
+    subcategory: 'basic',
+    color: 'Black',
+    size: ['S', 'M', 'L', 'XL'],
+    rating: 4.7,
+    reviews: 189,
+    image: 'https://images.unsplash.com/photo-1667544417110-403b89341112?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMHdoaXRlJTIwZmFzaGlvbiUyMG1vZGVsJTIwdC1zaGlydHxlbnwxfHx8fDE3NTY3MDQ1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    isNew: false,
+    isFeatured: false,
+    description: 'Essential black t-shirt with clean lines and premium fabric.'
   },
   {
     id: 'tshirt-3',
-    name: 'Urban Gray Sweatshirt',
-    price: 48.99,
+    name: 'Designer Graphic Tee',
+    price: 58.99,
     category: 'tshirts',
-    subcategory: 'sweatshirt',
-    color: 'Gray',
-    size: ['S', 'M', 'L', 'XL'],
+    subcategory: 'graphic',
+    color: 'Navy',
+    size: ['S', 'M', 'L', 'XL', 'XXL'],
     rating: 4.6,
     reviews: 98,
     image: 'https://images.unsplash.com/photo-1693901257178-b5fcb8f036a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZmFzaGlvbiUyMGNsb3RoaW5nJTIwc3RvcmV8ZW58MXwxfHwxNzU2NzA0NTg3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: true,
     isFeatured: false,
-    description: 'Comfortable gray sweatshirt perfect for casual wear and layering.'
+    description: 'Limited edition graphic t-shirt with artistic design and premium materials.'
+  },
+  {
+    id: 'tshirt-4',
+    name: 'Luxury Pima Cotton',
+    price: 65.99,
+    category: 'tshirts',
+    subcategory: 'premium',
+    color: 'Gray',
+    size: ['M', 'L', 'XL'],
+    rating: 4.9,
+    reviews: 76,
+    image: 'https://images.unsplash.com/photo-1615398264198-718da97f988d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBibGFjayUyMHRyb3VzZXJzJTIwbWVuJTIwZmFzaGlvbnxlbnwxfHx8fDE3NTY3MDQ3MDd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    isNew: false,
+    isFeatured: true,
+    description: 'Ultra-premium Pima cotton t-shirt with exceptional softness and longevity.'
   }
 ]
 
 const shoeProducts = [
   {
     id: 'shoes-1',
-    name: 'Luxury Sneakers',
-    price: 179.99,
+    name: 'Minimalist White Sneakers',
+    price: 189.99,
     category: 'shoes',
     subcategory: 'sneakers',
     color: 'White',
     size: ['7', '8', '9', '10', '11', '12'],
     rating: 4.8,
-    reviews: 145,
-    image: 'https://images.unsplash.com/photo-1718882703813-5b18d074242a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd2hpdGUlMjBzbmVha2Vyc3xlbnwxfHx8fDE3NTY3MjEwODZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    reviews: 312,
+    image: 'https://images.unsplash.com/photo-1642957464439-7c653ed1328c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHNuZWFrZXJzJTIwd2hpdGUlMjBiYWNrZ3JvdW5kfGVufDF8fHx8MTc1NjcwNDcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: true,
-    isFeatured: false,
-    description: 'Minimalist design with premium leather and exceptional comfort technology.'
+    isFeatured: true,
+    description: 'Clean, minimalist design with premium leather and exceptional comfort.'
   },
   {
     id: 'shoes-2',
-    name: 'Designer Athletic Shoes',
-    price: 229.99,
+    name: 'Premium Leather Boots',
+    price: 299.99,
     category: 'shoes',
-    subcategory: 'athletic',
-    color: 'Black/White',
-    size: ['7', '8', '9', '10', '11'],
+    subcategory: 'boots',
+    color: 'Brown',
+    size: ['8', '9', '10', '11', '12'],
     rating: 4.9,
-    reviews: 87,
-    image: 'https://images.unsplash.com/photo-1543652711-77eeb35ae548?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBzbmVha2VycyUyMHNob2VzfGVufDF8fHx8MTc1NjcyMTA3NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    reviews: 156,
+    image: 'https://images.unsplash.com/photo-1723797935115-92b666c26e14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuaWtlJTIwYWlyJTIwam9yZGFuJTIwc25lYWtlcnN8ZW58MXwxfHx8MTc1NjcwMDQ4NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: false,
     isFeatured: true,
-    description: 'High-performance athletic shoes with advanced cushioning and style.'
+    description: 'Handcrafted leather boots with premium materials and timeless design.'
   },
   {
     id: 'shoes-3',
@@ -204,7 +190,7 @@ const shoeProducts = [
     size: ['7', '8', '9', '10', '11', '12'],
     rating: 4.7,
     reviews: 203,
-    image: 'https://images.unsplash.com/photo-1723797935115-92b666c26e14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuaWtlJTIwYWlyJTIwam9yZGFuJTIwc25lYWtlcnN8ZW58MXwxfHx8MTc1NjcwMDQ4NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: 'https://images.unsplash.com/photo-1723797935115-92b666c26e14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuaWtlJTIwYWlyJTIwam9yZGFuJTIwc25lYWtlcnN8ZW58MXx8fHx8MTc1NjcwMDQ4NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     isNew: false,
     isFeatured: false,
     description: 'Timeless retro design with modern comfort and premium materials.'
@@ -220,6 +206,49 @@ const ShopCollection = () => {
   const [favorites, setFavorites] = useState(new Set())
   const [cart, setCart] = useState(new Set())
   const [filteredProducts, setFilteredProducts] = useState(allProducts)
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
+  const [scrollY, setScrollY] = useState(0)
+
+  // Hero images specifically for Premium Collection
+  const heroImages = [
+    {
+      id: 1,
+      url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwZmFzaGlvbiUyMGJvdXRpcXVlfGVufDF8fHx8MTc1NjcwNDcwOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      title: 'Premium Denim Collection',
+      subtitle: 'Authentic Japanese selvedge construction with luxury Italian fabrics'
+    },
+    {
+      id: 2,
+      url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbG90aGluZyUyMHN0b3JlfGVufDF8fHx8MTc1NjcwNDcxMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      title: 'Luxury T-Shirt Collection',
+      subtitle: 'Ultra-premium Pima cotton with exceptional softness and durability'
+    },
+    {
+      id: 3,
+      url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHNuZWFrZXJzJTIwc3RvcmV8ZW58MXx8fHx8MTc1NjcwNDcxMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      title: 'Designer Footwear Collection',
+      subtitle: 'Handcrafted leather with timeless design and premium materials'
+    }
+  ]
+
+  // Auto-rotate hero images every 6 seconds
+  useEffect(() => {
+    const heroInterval = setInterval(() => {
+      setCurrentHeroIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      )
+    }, 6000)
+
+    return () => clearInterval(heroInterval)
+  }, [heroImages.length])
+
+  // Handle scroll for parallax effects
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     let products = selectedCategory === 'all' ? allProducts : allProducts.filter(p => p.category === selectedCategory)
@@ -290,20 +319,20 @@ const ShopCollection = () => {
         {/* Action buttons */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="w-8 h-8 bg-white/90 border-black hover:bg-black hover:text-white"
+            className="bg-white/90 hover:bg-white"
             onClick={() => toggleFavorite(product.id)}
           >
-            <Heart className={`w-4 h-4 ${favorites.has(product.id) ? 'fill-current text-red-500' : ''}`} />
+            <Heart className={`h-4 w-4 ${favorites.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="w-8 h-8 bg-white/90 border-black hover:bg-black hover:text-white"
+            className="bg-white/90 hover:bg-white"
             onClick={() => addToCart(product.id)}
           >
-            <ShoppingCart className="w-4 h-4" />
+            <ShoppingCart className="h-4 w-4 text-gray-600" />
           </Button>
         </div>
       </div>
@@ -311,37 +340,45 @@ const ShopCollection = () => {
       <CardContent className={`p-4 ${isListView ? 'flex-1' : ''}`}>
         <div className="space-y-2">
           <div className="flex items-start justify-between">
-            <h3 className="font-medium text-lg line-clamp-1">{product.name}</h3>
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <Star className="w-3 h-3 fill-current text-yellow-500" />
-              <span>{product.rating}</span>
-              <span>({product.reviews})</span>
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors">
+                {product.name}
+              </h3>
+              <p className="text-sm text-gray-500 capitalize">{product.color}</p>
+            </div>
+            <div className="text-right">
+              <div className="flex items-center gap-1">
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <span className="text-sm font-medium">{product.rating}</span>
+                <span className="text-xs text-gray-500">({product.reviews})</span>
+              </div>
             </div>
           </div>
           
-          <p className="text-gray-600 text-sm line-clamp-2">{product.description}</p>
-          
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <span>Color: {product.color}</span>
-            <span>•</span>
-            <span>Sizes: {product.size.slice(0, 3).join(', ')}{product.size.length > 3 ? '...' : ''}</span>
-          </div>
-          
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-lg">${product.price}</span>
+              <span className="text-lg font-bold text-gray-900">
+                ${product.price}
+              </span>
               {product.originalPrice && (
-                <span className="text-gray-500 line-through text-sm">${product.originalPrice}</span>
+                <span className="text-sm text-gray-500 line-through">
+                  ${product.originalPrice}
+                </span>
               )}
             </div>
             
-            <Button 
-              size="sm"
-              className="bg-black text-white hover:bg-gray-800"
-              onClick={() => addToCart(product.id)}
-            >
-              {cart.has(product.id) ? 'Added' : 'Add to Cart'}
-            </Button>
+            <div className="flex gap-1">
+              {product.size.slice(0, 3).map((size) => (
+                <span key={size} className="text-xs bg-gray-100 px-2 py-1 rounded">
+                  {size}
+                </span>
+              ))}
+              {product.size.length > 3 && (
+                <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                  +{product.size.length - 3}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
@@ -350,45 +387,256 @@ const ShopCollection = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Back Button */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <Link to="/" className="inline-flex items-center text-gray-600 hover:text-black transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
-      </div>
-
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-black via-gray-800 to-black text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center space-y-6">
-            <h1 className="text-5xl md:text-6xl font-bold">
-              Premium Collection
-            </h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              Discover our curated selection of premium denim, luxury t-shirts, and designer footwear. 
-              Crafted with exceptional quality and timeless style.
-            </p>
+      {/* Navigation Bar with Smooth Scrolling */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo/Brand */}
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg"></div>
+              <span className="text-xl font-bold text-gray-900">LUXE</span>
+            </Link>
             
-            <div className="flex flex-wrap justify-center gap-4 pt-6">
-              <Badge variant="outline" className="bg-white/10 border-white/30 text-white px-4 py-2">
-                Free Shipping Over $150
-              </Badge>
-              <Badge variant="outline" className="bg-white/10 border-white/30 text-white px-4 py-2">
-                30-Day Returns
-              </Badge>
-              <Badge variant="outline" className="bg-white/10 border-white/30 text-white px-4 py-2">
-                Premium Materials
-              </Badge>
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-700 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-700 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Products
+              </button>
+
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500">
+                <Heart className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500">
+                <ShoppingCart className="w-4 h-4" />
+              </Button>
+              <Button size="sm" className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-300 hover:to-orange-300">
+                Sign In
+              </Button>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
+
+      {/* Enhanced Hero Section - Premium Collection Showcase */}
+      <section id="hero" className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden">
+        {/* Background Image Slider with Enhanced Parallax */}
+        <div className="absolute inset-0">
+          {heroImages.map((image, index) => (
+            <div
+              key={image.id}
+              className="absolute inset-0 transition-opacity duration-1000"
+              style={{
+                opacity: index === currentHeroIndex ? 1 : 0,
+                transform: `translateY(${scrollY * 0.5}px) scale(${1 + Math.min(scrollY / 1000, 0.2)})`
+              }}
+            >
+              <img
+                src={image.url}
+                alt={image.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/50"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Hero Content - Premium Collection Focus */}
+        <div className="relative z-10 min-h-screen flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content - Premium Collection Message */}
+              <div 
+                className="space-y-8 text-white"
+                style={{ transform: `translateX(${Math.min(scrollY, 100) * -0.5}px)` }}
+              >
+                <div className="space-y-6">
+                  {/* Premium Collection Badge */}
+                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-sm font-medium">Premium Collection</span>
+                  </div>
+                  
+                  {/* Main Hero Title */}
+                  <div className="space-y-4">
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+                      Premium
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+                        Collection
+                      </span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-white/90 max-w-2xl leading-relaxed font-light">
+                      Discover our curated selection of premium denim, luxury t-shirts, and designer footwear. 
+                      Crafted with exceptional quality and timeless style for the discerning individual.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Call-to-Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    size="lg" 
+                    className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-300 hover:to-orange-300 px-8 py-6 text-lg font-semibold shadow-2xl hover:shadow-yellow-400/20 transition-all duration-300"
+                  >
+                    <ShoppingBag className="mr-2 h-5 w-5" />
+                    Shop Now
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold backdrop-blur-sm transition-all duration-300"
+                  >
+                    View Lookbook
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
+                
+                {/* Premium Features */}
+                <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/20">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-yellow-400">200+</div>
+                    <div className="text-sm text-white/70">Premium Denim</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-yellow-400">150+</div>
+                    <div className="text-sm text-white/70">Luxury T-Shirts</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-yellow-400">100+</div>
+                    <div className="text-sm text-white/70">Designer Shoes</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Content - Featured Collection Showcase */}
+              <div 
+                className="relative"
+                style={{ transform: `translateX(${Math.min(scrollY, 100) * 0.5}px)` }}
+              >
+                <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 text-white border border-white/20 shadow-2xl">
+                  <div className="space-y-6">
+                    {/* Featured Collection Info */}
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-2 bg-yellow-400/20 px-3 py-1 rounded-full mb-4 border border-yellow-400/30">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-sm font-medium text-yellow-400">Featured Collection</span>
+                      </div>
+                      <h3 className="text-3xl font-bold mb-2">
+                        {heroImages[currentHeroIndex]?.title}
+                      </h3>
+                      <p className="text-xl text-white/90 leading-relaxed">
+                        {heroImages[currentHeroIndex]?.subtitle}
+                      </p>
+                    </div>
+                    
+                    {/* Collection Navigation */}
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="flex gap-2">
+                        {heroImages.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              index === currentHeroIndex ? 'bg-yellow-400 w-8' : 'bg-white/30'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-white/70 font-medium">
+                        {currentHeroIndex + 1} / {heroImages.length}
+                      </span>
+                    </div>
+                    
+                    {/* Premium Benefits */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/15 rounded-xl p-4 text-center border border-white/20">
+                        <div className="text-2xl font-bold text-yellow-400">Free</div>
+                        <div className="text-sm text-white/80">Shipping</div>
+                      </div>
+                      <div className="bg-white/15 rounded-xl p-4 text-center border border-white/20">
+                        <div className="text-2xl font-bold text-yellow-400">30d</div>
+                        <div className="text-sm text-white/80">Returns</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Premium Floating Elements */}
+        <div 
+          className="absolute top-20 right-20 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full p-6 shadow-2xl hidden lg:block border-4 border-white"
+          style={{ transform: `translateY(${Math.min(scrollY, 200) * -0.4}px) rotate(${Math.min(scrollY, 200) * 0.9}deg)` }}
+        >
+          <div className="text-center">
+            <div className="text-2xl font-bold text-black">50%</div>
+            <div className="text-xs text-black font-semibold">OFF</div>
+          </div>
+        </div>
+        <div 
+          className="absolute bottom-32 left-20 bg-black border-2 border-yellow-400 text-white rounded-full p-6 shadow-2xl hidden lg:block"
+          style={{ transform: `translateY(${Math.min(scrollY, 200) * 0.3}px) scale(${1 - Math.min(scrollY, 200) / 700})` }}
+        >
+          <div className="text-center">
+            <div className="text-2xl font-bold text-yellow-400">New</div>
+            <div className="text-xs font-semibold">Arrivals</div>
+          </div>
+        </div>
+
+        {/* Premium Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div 
+            className="flex flex-col items-center gap-3 text-white transition-opacity duration-300"
+            style={{ opacity: 1 - Math.min(scrollY / 300, 1) }}
+          >
+            <span className="text-sm font-medium bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">Scroll to explore Premium Collection</span>
+            <div className="w-px h-16 bg-gradient-to-b from-transparent via-yellow-400 to-transparent animate-pulse"></div>
+          </div>
+        </div>
+
+        {/* Premium Geometric Elements */}
+        <div 
+          className="absolute top-1/4 left-10 w-32 h-32 border-2 border-yellow-400/20 rotate-45 hidden lg:block"
+          style={{ transform: `rotate(${45 + Math.min(scrollY, 200)}deg) scale(${1 + Math.min(scrollY, 200) / 400})` }}
+        />
+        <div 
+          className="absolute bottom-1/4 right-10 w-24 h-24 bg-yellow-400/10 rounded-full hidden lg:block"
+          style={{ transform: `translateY(${Math.min(scrollY, 200) * -0.5}px) scale(${1 - Math.min(scrollY, 200) / 700})` }}
+        />
+      </section>
 
       {/* Main Shop Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-yellow-400/10 px-4 py-2 rounded-full border border-yellow-400/20 mb-6">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-medium text-yellow-600">Premium Collection</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Explore Our
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+              Premium Products
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Discover our handpicked selection of premium denim, luxury t-shirts, and designer footwear. 
+            Each piece is crafted with exceptional quality and timeless style.
+          </p>
+        </div>
         
         {/* Category Tabs & Controls */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
@@ -420,14 +668,14 @@ const ShopCollection = () => {
 
             {/* View Mode */}
             <div className="flex items-center border rounded-lg bg-white">
-                             <Button
-                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                 size="sm"
-                 onClick={() => setViewMode('grid')}
-                 className="rounded-r-none"
-               >
-                 <Grid className="w-4 h-4" />
-               </Button>
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="rounded-r-none"
+              >
+                <Grid className="w-4 h-4" />
+              </Button>
               <Button
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
@@ -475,72 +723,150 @@ const ShopCollection = () => {
 
         {/* Empty State */}
         {filteredProducts.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-              <Search className="w-12 h-12 text-gray-400" />
-            </div>
-            <h3 className="text-xl font-medium mb-2">No products found</h3>
-            <p className="text-gray-600">Try adjusting your filters or browse all products.</p>
-            <Button 
-              className="mt-4"
-              onClick={() => {
-                setSelectedCategory('all')
-                setSortBy('featured')
-              }}
-            >
+          <div className="text-center py-12">
+            <div className="text-gray-400 text-6xl mb-4">🛍️</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+            <p className="text-gray-600 mb-6">
+              Try adjusting your filters or browse all categories
+            </p>
+            <Button onClick={() => setSelectedCategory('all')}>
               View All Products
             </Button>
           </div>
         )}
-
-        {/* Featured Section - Premium Denim Highlight */}
-        {selectedCategory === 'all' && (
-          <div className="mt-16 py-16 bg-gradient-to-r from-gray-900 to-black rounded-2xl text-white">
-            <div className="max-w-4xl mx-auto px-8 text-center">
-              <h2 className="text-4xl font-bold mb-6">Premium Denim Collection</h2>
-              <p className="text-xl text-white/80 mb-8">
-                Our signature denim pieces are crafted with the finest materials and traditional techniques, 
-                offering unmatched quality and timeless style that improves with age.
-              </p>
-              
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-white/10 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">🌟</span>
-                  </div>
-                  <h3 className="font-medium mb-2">Premium Materials</h3>
-                  <p className="text-white/70 text-sm">Japanese selvedge and organic cotton</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-white/10 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">✂️</span>
-                  </div>
-                  <h3 className="font-medium mb-2">Artisan Crafted</h3>
-                  <p className="text-white/70 text-sm">Hand-finished with attention to detail</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-white/10 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">♻️</span>
-                  </div>
-                  <h3 className="font-medium mb-2">Sustainable</h3>
-                  <p className="text-white/70 text-sm">Eco-friendly production methods</p>
-                </div>
-              </div>
-
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-black"
-                onClick={() => setSelectedCategory('denim')}
-              >
-                Shop Denim Collection
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
-    </div>
-  )
-}
+
+
+
+       {/* Footer Section */}
+       <footer className="bg-black text-white">
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           {/* Newsletter Section */}
+           <div className="py-12 border-b border-gray-800">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+               <div>
+                 <h3 className="text-2xl font-bold mb-2">Stay in the Loop</h3>
+                 <p className="text-gray-400">
+                   Get the latest updates on new arrivals, exclusive offers, and style tips.
+                 </p>
+               </div>
+               <div className="flex gap-4">
+                 <input
+                   type="email"
+                   placeholder="Enter your email"
+                   className="bg-gray-900 border border-gray-700 text-white placeholder-gray-400 rounded-md px-3 py-2 w-full"
+                 />
+                 <Button className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-300 hover:to-orange-300 whitespace-nowrap">
+                   Subscribe
+                 </Button>
+               </div>
+             </div>
+           </div>
+
+           {/* Main Footer Content */}
+           <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+             {/* Brand Section */}
+             <div className="space-y-4">
+               <div className="flex items-center space-x-2">
+                 <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg"></div>
+                 <span className="text-2xl font-bold">LUXE</span>
+               </div>
+               <p className="text-gray-400 leading-relaxed">
+                 Crafting exceptional fashion for those who dare to stand out.
+               </p>
+               <div className="flex space-x-4">
+                 <Button variant="ghost" size="icon" className="text-gray-400 hover:text-yellow-400">
+                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                   </svg>
+                 </Button>
+                 <Button variant="ghost" size="icon" className="text-gray-400 hover:text-yellow-400">
+                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                   </svg>
+                 </Button>
+                 <Button variant="ghost" size="icon" className="text-gray-400 hover:text-yellow-400">
+                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                   </svg>
+                 </Button>
+                 <Button variant="ghost" size="icon" className="text-gray-400 hover:text-yellow-400">
+                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                   </svg>
+                 </Button>
+               </div>
+             </div>
+
+             {/* Shop Links */}
+             <div>
+               <h4 className="font-semibold text-lg mb-4">Shop</h4>
+               <ul className="space-y-3">
+                 <li>
+                   <button 
+                     onClick={() => document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })}
+                     className="text-gray-400 hover:text-yellow-400 transition-colors"
+                   >
+                     Home
+                   </button>
+                 </li>
+                 <li>
+                   <button 
+                     onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                     className="text-gray-400 hover:text-yellow-400 transition-colors"
+                   >
+                     Products
+                   </button>
+                 </li>
+                 
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">New Arrivals</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Sale</a></li>
+               </ul>
+             </div>
+
+             {/* Support Links */}
+             <div>
+               <h4 className="font-semibold text-lg mb-4">Support</h4>
+               <ul className="space-y-3">
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Size Guide</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Returns & Exchanges</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Shipping Info</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Contact Us</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">FAQ</a></li>
+               </ul>
+             </div>
+
+             {/* Company Links */}
+             <div>
+               <h4 className="font-semibold text-lg mb-4">Company</h4>
+               <ul className="space-y-3">
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">About Us</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Careers</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Sustainability</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Press</a></li>
+                 <li><a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Privacy Policy</a></li>
+               </ul>
+             </div>
+           </div>
+
+           {/* Bottom Section */}
+           <div className="py-8 border-t border-gray-800">
+             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+               <div className="text-gray-400 text-sm">
+                 © {new Date().getFullYear()} LUXE. All rights reserved.
+               </div>
+               <div className="flex space-x-6 text-sm">
+                 <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Terms of Service</a>
+                 <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Privacy Policy</a>
+                 <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Cookies</a>
+                 <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">Accessibility</a>
+               </div>
+             </div>
+           </div>
+         </div>
+       </footer>
+     </div>
+   )
+ }
 
 export default ShopCollection
