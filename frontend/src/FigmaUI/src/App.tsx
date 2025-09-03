@@ -8,11 +8,12 @@ import { Footer } from "./components/Footer";
 import { UserProfilePage } from "./components/UserProfilePage";
 import { ShopCollection } from "./components/ShopCollection";
 import { AboutUsPage } from "./components/AboutUsPage";
+import { ContactUsPage } from "./components/ContactUsPage";
 import { Button } from "./components/ui/button";
-import { User, Home, ShoppingBag, Info } from "lucide-react";
+import { User, Home, ShoppingBag, Info, Mail } from "lucide-react";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'profile' | 'shop' | 'about'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'profile' | 'shop' | 'about' | 'contact'>('home');
 
   return (
     <div className="min-h-screen bg-white">
@@ -44,6 +45,15 @@ export default function App() {
         >
           <Info className="w-4 h-4 mr-2" />
           About
+        </Button>
+        <Button
+          onClick={() => setCurrentPage('contact')}
+          variant={currentPage === 'contact' ? 'default' : 'outline'}
+          size="sm"
+          className="shadow-lg"
+        >
+          <Mail className="w-4 h-4 mr-2" />
+          Contact
         </Button>
         <Button
           onClick={() => setCurrentPage('profile')}
@@ -92,6 +102,10 @@ export default function App() {
       ) : currentPage === 'about' ? (
         <main className="pt-16">
           <AboutUsPage />
+        </main>
+      ) : currentPage === 'contact' ? (
+        <main className="pt-16">
+          <ContactUsPage />
         </main>
       ) : (
         <main className="pt-16">

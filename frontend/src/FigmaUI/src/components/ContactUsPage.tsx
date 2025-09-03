@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
-import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
-import LoadingScreen from "../components/LoadingScreen";
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'motion/react';
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
 import { 
   Mail,
   Phone,
@@ -19,15 +21,11 @@ import {
   Users,
   Globe,
   Star,
-  CheckCircle2,
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube
+  CheckCircle2
 } from "lucide-react";
-import { Link } from 'react-router-dom';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
-const ContactUs = () => {
+export function ContactUsPage() {
   const [loading, setLoading] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [formData, setFormData] = useState({
@@ -38,7 +36,14 @@ const ContactUs = () => {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const heroRef = useRef(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  
+  // Parallax transforms
+  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const yText = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   useEffect(() => {
     // Loading animation
@@ -47,7 +52,7 @@ const ContactUs = () => {
     }, 2000);
 
     // Mouse tracking for parallax
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
         y: (e.clientY / window.innerHeight) * 100,
@@ -62,7 +67,7 @@ const ContactUs = () => {
     };
   }, []);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
     // Here you would typically send the form data to your backend
@@ -72,20 +77,68 @@ const ContactUs = () => {
     }, 3000);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-
+  // Loading screen component
+  const LoadingScreen = () => (
+    <motion.div 
+      className="fixed inset-0 bg-black z-50 flex items-center justify-center"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.1 }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
+    >
+      <div className="text-center">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="w-20 h-20 border-4 border-white border-t-transparent rounded-full mx-auto mb-8"
+          />
+        </motion.div>
+        
+        <motion.h1 
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="text-4xl md:text-6xl font-bold text-white mb-4"
+        >
+          Contact Us
+        </motion.h1>
+        
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: "200px" }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="h-1 bg-white mx-auto"
+        />
+        
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="text-white/70 mt-4 text-lg"
+        >
+          Let's start a conversation
+        </motion.p>
+      </div>
+    </motion.div>
+  );
 
   const contactInfo = [
     {
       icon: Mail,
       title: "Email Us",
-      content: "hello@luxe.com",
+      content: "hello@fashionstore.com",
       subtitle: "We reply within 24 hours"
     },
     {
@@ -125,41 +178,27 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <LoadingScreen 
-            key="loading"
-            title="Contact Us"
-            subtitle="Let's start a conversation"
-          />
-        ) : (
-          <motion.div 
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Enhanced Hero Section */}
-            <motion.div 
-              ref={heroRef}
-              className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
+      <AnimatePresence>
+        {loading && <LoadingScreen />}
+      </AnimatePresence>
+
+      {/* Enhanced Hero Section */}
+      <motion.div 
+        ref={heroRef}
+        className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: loading ? 0 : 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      >
         {/* Animated Background */}
         <motion.div 
           className="absolute inset-0"
-          style={{ 
-            transform: `translateY(${mousePosition.y * 0.1}px) scale(${1 + mousePosition.x * 0.001})` 
-          }}
+          style={{ y: yBg, scale }}
         >
-          <div 
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1683148669219-f279673db7ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBidWlsZGluZyUyMGFyY2hpdGVjdHVyZXxlbnwxfHx8fDE3NTY4NDg1ODR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`
-            }}
+          <ImageWithFallback
+            src="https://images.unsplash.com/photo-1683148669219-f279673db7ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBidWlsZGluZyUyMGFyY2hpdGVjdHVyZXxlbnwxfHx8fDE3NTY4NDg1ODR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            alt="Modern Office Building"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/70"></div>
         </motion.div>
@@ -192,9 +231,7 @@ const ContactUs = () => {
         {/* Parallax Text Content */}
         <motion.div 
           className="relative h-full flex items-center"
-          style={{ 
-            transform: `translateY(${mousePosition.y * 0.05}px)` 
-          }}
+          style={{ y: yText, opacity }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="max-w-4xl">
@@ -416,9 +453,7 @@ const ContactUs = () => {
                     transition={{ duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name
-                    </label>
+                    <Label htmlFor="name">Full Name</Label>
                     <Input
                       id="name"
                       name="name"
@@ -436,9 +471,7 @@ const ContactUs = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     viewport={{ once: true }}
                   >
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address
-                    </label>
+                    <Label htmlFor="email">Email Address</Label>
                     <Input
                       id="email"
                       name="email"
@@ -458,9 +491,7 @@ const ContactUs = () => {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
-                  </label>
+                  <Label htmlFor="subject">Subject</Label>
                   <Input
                     id="subject"
                     name="subject"
@@ -478,9 +509,7 @@ const ContactUs = () => {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
+                  <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
                     name="message"
@@ -534,11 +563,10 @@ const ContactUs = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div
-                  className="w-full h-full bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1587522630593-3b9e5f3255f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwZGVzayUyMHNldHVwfGVufDF8fHx8MTc1Njg3NTc3M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`
-                  }}
+                <ImageWithFallback
+                  src="https://images.unsplash.com/photo-1587522630593-3b9e5f3255f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwZGVzayUyMHNldHVwfGVufDF8fHx8MTc1Njg3NTc3M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  alt="Workspace"
+                  className="w-full h-full object-cover"
                 />
               </motion.div>
 
@@ -707,7 +735,7 @@ const ContactUs = () => {
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <ArrowRight className="w-5 w-5" />
+                  <ArrowRight className="h-5 w-5" />
                 </motion.div>
               </Button>
             </motion.div>
@@ -727,110 +755,6 @@ const ContactUs = () => {
           </motion.div>
         </div>
       </motion.section>
-
-      {/* Footer (FigmaUI-style) */}
-      <footer className="bg-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Newsletter Section */}
-          <div className="py-12 border-b border-gray-800">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Stay in the Loop</h3>
-                <p className="text-gray-400">
-                  Get the latest updates on new arrivals, exclusive offers, and style tips.
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="bg-gray-900 border border-gray-700 text-white placeholder-gray-400 rounded-md px-3 py-2 w-full"
-                />
-                <Button className="bg-white text-black hover:bg-gray-200 whitespace-nowrap">
-                  Subscribe
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Footer Content */}
-          <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Brand Section */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">LUXE</h2>
-              <p className="text-gray-400 leading-relaxed">
-                Crafting exceptional fashion for those who dare to stand out.
-              </p>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Facebook className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Instagram className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Twitter className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Youtube className="h-5 w-5" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Shop Links */}
-            <div>
-              <h4 className="font-semibold text-lg mb-4">Shop</h4>
-              <ul className="space-y-3">
-                <li><a href="#collections" className="text-gray-400 hover:text-white transition-colors">Collections</a></li>
-                <li><a href="#featured" className="text-gray-400 hover:text-white transition-colors">Featured</a></li>
-                <li><a href="#testimonials" className="text-gray-400 hover:text-white transition-colors">Testimonials</a></li>
-                <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">All Products</Link></li>
-              </ul>
-            </div>
-
-            {/* Support Links */}
-            <div>
-              <h4 className="font-semibold text-lg mb-4">Support</h4>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Size Guide</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Returns & Exchanges</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Shipping Info</a></li>
-                <li><Link to="/contactus" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link></li>
-              </ul>
-            </div>
-
-            {/* Company Links */}
-            <div>
-              <h4 className="font-semibold text-lg mb-4">Company</h4>
-              <ul className="space-y-3">
-                <li><Link to="/aboutus" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Sustainability</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom Section */}
-          <div className="py-8 border-t border-gray-800">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-gray-400 text-sm">
-                © {new Date().getFullYear()} LUXE. All rights reserved.
-              </div>
-              <div className="flex space-x-6 text-sm">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Cookies</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  };
-
-export default ContactUs;
+    </div>
+  );
+}

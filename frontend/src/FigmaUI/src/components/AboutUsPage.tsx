@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'motion/react';
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
@@ -20,204 +20,100 @@ import {
   TrendingUp,
   Shield,
   Sparkles,
-  ChevronDown,
-  Zap,
-  Eye,
-  Palette,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  Instagram,
-  Twitter,
-  Facebook,
-  Linkedin
+  ChevronDown
 } from "lucide-react";
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
-// Enhanced Team members data
+// Team members data
 const teamMembers = [
   {
     id: 1,
     name: "Sarah Chen",
     role: "Founder & Creative Director",
-    bio: "With over 15 years in luxury fashion, Sarah founded our brand with a vision to create timeless pieces that blend traditional craftsmanship with modern design. Her passion for sustainable fashion drives our brand's mission.",
-    image: "https://images.unsplash.com/photo-1674729444118-5d62050429b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZGVzaWduZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NTY4MjYxNTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    social: { linkedin: "#", instagram: "#", twitter: "#" },
-    expertise: ["Creative Direction", "Brand Strategy", "Sustainable Fashion"]
+    bio: "With over 15 years in luxury fashion, Sarah founded our brand with a vision to create timeless pieces that blend traditional craftsmanship with modern design.",
+    image: "https://images.unsplash.com/photo-1674729444118-5d62050429b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZGVzaWduZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NTY4MjYxNTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
   },
   {
     id: 2,
     name: "Marcus Rodriguez",
     role: "Head of Design",
-    bio: "Marcus brings innovative design perspectives from his background in haute couture, ensuring every piece meets our standards of excellence. His eye for detail transforms concepts into wearable art.",
-    image: "https://images.unsplash.com/photo-1685703206366-d514f27076ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwdGVhbSUyMHdvcmtpbmd8ZW58MXwxfHwxNzU2ODI2MTY2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    social: { linkedin: "#", instagram: "#", twitter: "#" },
-    expertise: ["Haute Couture", "Pattern Making", "Design Innovation"]
+    bio: "Marcus brings innovative design perspectives from his background in haute couture, ensuring every piece meets our standards of excellence.",
+    image: "https://images.unsplash.com/photo-1685703206366-d514f27076ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwdGVhbSUyMHdvcmtpbmd8ZW58MXx8fHwxNzU2ODI2MTY2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
   },
   {
     id: 3,
     name: "Elena Vasquez",
     role: "Sustainability Lead",
-    bio: "Elena champions our commitment to sustainable fashion, working with ethical suppliers and developing eco-friendly production methods. She ensures every decision aligns with our environmental values.",
-    image: "https://images.unsplash.com/photo-1753370241639-e8596ccbfe0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXN0YWluYWJsZSUyMGZhc2hpb24lMjBtYXRlcmlhbHN8ZW58MXwxfHwxNzU2ODI2MTYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    social: { linkedin: "#", instagram: "#", twitter: "#" },
-    expertise: ["Sustainable Materials", "Ethical Sourcing", "Environmental Impact"]
-  },
-  {
-    id: 4,
-    name: "Alex Thompson",
-    role: "Digital Innovation Lead",
-    bio: "Alex drives our digital transformation, creating seamless online experiences and leveraging technology to connect with our global community of fashion enthusiasts.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwcHJvZmVzc2lvbmFsJTIwbWVufGVufDF8fHx8MTc1NjgyNjE2N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    social: { linkedin: "#", instagram: "#", twitter: "#" },
-    expertise: ["Digital Strategy", "E-commerce", "User Experience"]
+    bio: "Elena champions our commitment to sustainable fashion, working with ethical suppliers and developing eco-friendly production methods.",
+    image: "https://images.unsplash.com/photo-1753370241639-e8596ccbfe0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXN0YWluYWJsZSUyMGZhc2hpb24lMjBtYXRlcmlhbHN8ZW58MXx8fHwxNzU2ODI2MTYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
   }
 ];
 
-// Enhanced Company values
+// Company values
 const values = [
   {
     icon: Award,
     title: "Quality Excellence",
-    description: "Every piece is crafted with meticulous attention to detail using premium materials and traditional techniques.",
-    color: "from-yellow-400 to-orange-500"
+    description: "Every piece is crafted with meticulous attention to detail using premium materials and traditional techniques."
   },
   {
     icon: Leaf,
     title: "Sustainability",
-    description: "We're committed to sustainable practices, from sourcing organic materials to reducing our environmental impact.",
-    color: "from-green-400 to-emerald-500"
+    description: "We're committed to sustainable practices, from sourcing organic materials to reducing our environmental impact."
   },
   {
     icon: Heart,
     title: "Authentic Design",
-    description: "Our designs are timeless and authentic, created to last and transcend seasonal trends.",
-    color: "from-pink-400 to-rose-500"
+    description: "Our designs are timeless and authentic, created to last and transcend seasonal trends."
   },
   {
     icon: Users,
     title: "Community",
-    description: "We build lasting relationships with our customers, artisans, and partners based on trust and respect.",
-    color: "from-blue-400 to-indigo-500"
-  },
-  {
-    icon: Zap,
-    title: "Innovation",
-    description: "Constantly pushing boundaries with cutting-edge technology and creative design solutions.",
-    color: "from-purple-400 to-violet-500"
-  },
-  {
-    icon: Globe,
-    title: "Global Reach",
-    description: "Connecting fashion enthusiasts worldwide through our innovative digital platform.",
-    color: "from-cyan-400 to-blue-500"
+    description: "We build lasting relationships with our customers, artisans, and partners based on trust and respect."
   }
 ];
 
-// Enhanced Statistics
+// Statistics
 const stats = [
-  { label: "Years of Excellence", value: "15+", icon: Clock, color: "from-yellow-400 to-orange-500" },
-  { label: "Satisfied Customers", value: "50K+", icon: Users, color: "from-blue-400 to-indigo-500" },
-  { label: "Countries Worldwide", value: "25+", icon: Globe, color: "from-green-400 to-emerald-500" },
-  { label: "Artisan Partners", value: "100+", icon: Heart, color: "from-pink-400 to-rose-500" },
-  { label: "Products Launched", value: "500+", icon: Sparkles, color: "from-purple-400 to-violet-500" },
-  { label: "Awards Won", value: "25+", icon: Award, color: "from-cyan-400 to-blue-500" }
+  { label: "Years of Excellence", value: "15+" },
+  { label: "Satisfied Customers", value: "50K+" },
+  { label: "Countries Worldwide", value: "25+" },
+  { label: "Artisan Partners", value: "100+" }
 ];
 
-// Enhanced Milestones
+// Milestones
 const milestones = [
   {
     year: "2009",
     title: "Brand Founded",
-    description: "Started with a small collection of premium denim in a workshop in San Francisco.",
-    icon: Star,
-    color: "from-yellow-400 to-orange-500"
+    description: "Started with a small collection of premium denim in a workshop in San Francisco."
   },
   {
     year: "2012",
     title: "First Flagship Store",
-    description: "Opened our first flagship store in downtown San Francisco, marking our physical presence in the fashion world.",
-    icon: MapPin,
-    color: "from-blue-400 to-indigo-500"
+    description: "Opened our first flagship store in downtown San Francisco."
   },
   {
     year: "2015",
     title: "Sustainable Initiative",
-    description: "Launched our sustainability program and began working with organic cotton suppliers, setting industry standards.",
-    icon: Leaf,
-    color: "from-green-400 to-emerald-500"
+    description: "Launched our sustainability program and began working with organic cotton suppliers."
   },
   {
     year: "2018",
+    title: "International Expansion",
+    description: "Expanded to Europe and Asia, bringing our designs to a global audience."
+  },
+  {
+    year: "2021",
     title: "Digital Transformation",
-    description: "Launched our e-commerce platform, expanding our reach to customers worldwide and revolutionizing our business model.",
-    icon: Zap,
-    color: "from-purple-400 to-violet-500"
-  },
-  {
-    year: "2020",
-    title: "Global Expansion",
-    description: "Expanded to 25+ countries, establishing partnerships with local artisans and bringing our vision to new markets.",
-    icon: Globe,
-    color: "from-cyan-400 to-blue-500"
-  },
-  {
-    year: "2023",
-    title: "Innovation Hub",
-    description: "Opened our innovation center, focusing on sustainable materials research and digital fashion experiences.",
-    icon: Sparkles,
-    color: "from-pink-400 to-rose-500"
+    description: "Launched our e-commerce platform and digital customer experience."
   },
   {
     year: "2024",
-    title: "Future Forward",
-    description: "Leading the industry with AI-powered design tools, virtual try-ons, and sustainable fashion technology.",
-    icon: Eye,
-    color: "from-indigo-400 to-purple-500"
+    title: "Carbon Neutral",
+    description: "Achieved carbon neutrality across our entire supply chain."
   }
 ];
-
-// Enhanced Testimonials
-const testimonials = [
-  {
-    id: 1,
-    name: "Emma Rodriguez",
-    role: "Fashion Blogger",
-    content: "The quality and attention to detail in every piece is incredible. I've never felt more confident in my style choices.",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc1NjgyNjE2OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 5
-  },
-  {
-    id: 2,
-    name: "David Chen",
-    role: "Tech Entrepreneur",
-    content: "Sustainable fashion that actually looks good? This brand proves you don't have to compromise style for ethics.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwcHJvZmVzc2lvbmFsJTIwbWVufGVufDF8fHx8MTc1NjgyNjE2N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 5
-  },
-  {
-    id: 3,
-    name: "Sophia Williams",
-    role: "Sustainability Advocate",
-    content: "Finally, a brand that walks the talk. Their commitment to sustainable practices is inspiring and genuine.",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGJ1c2luZXNzJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU2ODI2MTY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 5
-  }
-];
-
-// Contact Information
-const contactInfo = {
-  address: "123 Fashion District, San Francisco, CA 94102",
-  phone: "+1 (555) 123-4567",
-  email: "hello@fashionbrand.com",
-  social: {
-    instagram: "https://instagram.com/fashionbrand",
-    twitter: "https://twitter.com/fashionbrand",
-    facebook: "https://facebook.com/fashionbrand",
-    linkedin: "https://linkedin.com/company/fashionbrand"
-  }
-};
 
 export function AboutUsPage() {
   const [loading, setLoading] = useState(true);
@@ -253,115 +149,52 @@ export function AboutUsPage() {
     };
   }, []);
 
-  // Enhanced Loading screen component
+  // Loading screen component
   const LoadingScreen = () => (
     <motion.div 
-      className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black z-50 flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 bg-black z-50 flex items-center justify-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.1 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      {/* Animated Background Elements */}
-      <motion.div
-        className="absolute inset-0 opacity-20"
-        animate={{
-          background: [
-            "radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)",
-            "radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%)",
-            "radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%)",
-            "radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%)"
-          ]
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      <div className="text-center relative z-10">
-        {/* Enhanced Logo Animation */}
+      <div className="text-center">
         <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-8"
         >
           <motion.div
-            animate={{ 
-              rotate: 360,
-              scale: [1, 1.1, 1],
-              boxShadow: [
-                "0 0 20px rgba(255,255,255,0.3)",
-                "0 0 40px rgba(255,255,255,0.6)",
-                "0 0 20px rgba(255,255,255,0.3)"
-              ]
-            }}
-            transition={{ 
-              rotate: { duration: 3, repeat: Infinity, ease: "linear" },
-              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="w-24 h-24 border-4 border-white border-t-transparent rounded-full mx-auto mb-8 relative"
-          >
-            <motion.div
-              className="absolute inset-2 border-2 border-white/30 rounded-full"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            />
-          </motion.div>
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="w-20 h-20 border-4 border-white border-t-transparent rounded-full mx-auto mb-8"
+          />
         </motion.div>
         
-        {/* Enhanced Title Animation */}
         <motion.h1 
-          initial={{ y: 50, opacity: 0 }}
+          initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-          className="text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent"
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="text-4xl md:text-6xl font-bold text-white mb-4"
         >
           About Us
         </motion.h1>
         
-        {/* Enhanced Progress Bar */}
         <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "300px", opacity: 1 }}
-          transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
-          className="h-2 bg-gradient-to-r from-white via-gray-300 to-white mx-auto rounded-full overflow-hidden"
-        >
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
-            initial={{ x: "-100%" }}
-            animate={{ x: "100%" }}
-            transition={{ delay: 1.5, duration: 1, ease: "easeInOut" }}
-          />
-        </motion.div>
+          initial={{ width: 0 }}
+          animate={{ width: "200px" }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="h-1 bg-white mx-auto"
+        />
         
-        {/* Enhanced Subtitle */}
         <motion.p
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="text-white/80 mt-6 text-xl font-light tracking-wide"
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="text-white/70 mt-4 text-lg"
         >
           Crafting stories, creating futures
         </motion.p>
-        
-        {/* Loading Dots */}
-        <motion.div className="flex justify-center space-x-2 mt-8">
-          {[0, 1, 2].map((i) => (
-            <motion.div
-              key={i}
-              className="w-3 h-3 bg-white rounded-full"
-              animate={{ 
-                scale: [1, 1.5, 1],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
-                delay: i * 0.2,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </motion.div>
       </div>
     </motion.div>
   );
@@ -379,34 +212,11 @@ export function AboutUsPage() {
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        {/* Enhanced Animated Background */}
+        {/* Animated Background */}
         <motion.div 
           className="absolute inset-0"
           style={{ y: yBg, scale }}
         >
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/80" />
-          
-          {/* Floating Elements */}
-          <motion.div
-            className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-full"
-            animate={{ 
-              y: [0, -20, 0],
-              rotate: [0, 180, 360],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-40 right-32 w-24 h-24 bg-white/5 rounded-full"
-            animate={{ 
-              y: [0, 30, 0],
-              x: [0, 20, 0],
-              scale: [1, 0.8, 1]
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          />
-          
           <ImageWithFallback
             src="https://images.unsplash.com/photo-1704729105381-f579cfcefd63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZGVzaWduJTIwc3R1ZGlvJTIwd29ya3NwYWNlfGVufDF8fHx8MTc1NjgyNjE1MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
             alt="Fashion Design Studio"
@@ -1038,224 +848,6 @@ export function AboutUsPage() {
           </div>
         </div>
       </div>
-
-      {/* Enhanced Testimonials Section */}
-      <motion.div 
-        className="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="mb-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0">
-              <Heart className="w-4 h-4 mr-2" />
-              Customer Stories
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              What Our Community Says
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Real stories from real people who have experienced the quality and passion behind our brand.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300"
-                initial={{ y: 50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10, scale: 1.02 }}
-              >
-                {/* Rating Stars */}
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                
-                {/* Testimonial Content */}
-                <blockquote className="text-gray-700 mb-6 italic text-lg leading-relaxed">
-                  "{testimonial.content}"
-                </blockquote>
-                
-                {/* Author Info */}
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                    <ImageWithFallback
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-gray-600 text-sm">{testimonial.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Enhanced Contact Section */}
-      <motion.div 
-        className="py-20 bg-white relative overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full opacity-30 blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-br from-pink-100 to-yellow-100 rounded-full opacity-30 blur-3xl" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
-              <Phone className="w-4 h-4 mr-2" />
-              Get In Touch
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Let's Start a Conversation
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Ready to explore our collection or have questions? We'd love to hear from you.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Contact Form */}
-            <motion.div
-              className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100"
-              initial={{ x: -50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input 
-                    type="text" 
-                    placeholder="First Name" 
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                  />
-                  <input 
-                    type="text" 
-                    placeholder="Last Name" 
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                  />
-                </div>
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                />
-                <textarea 
-                  placeholder="Your Message" 
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
-                />
-                <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                  Send Message
-                  <Mail className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </motion.div>
-
-            {/* Contact Information */}
-            <motion.div
-              className="space-y-8"
-              initial={{ x: 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Visit Us</h4>
-                    <p className="text-gray-600">{contactInfo.address}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Call Us</h4>
-                    <p className="text-gray-600">{contactInfo.phone}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Email Us</h4>
-                    <p className="text-gray-600">{contactInfo.email}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-4">Follow Us</h4>
-                <div className="flex space-x-4">
-                  {Object.entries(contactInfo.social).map(([platform, url]) => (
-                    <motion.a
-                      key={platform}
-                      href={url}
-                      className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors duration-300"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {platform === 'instagram' && <Instagram className="w-5 h-5 text-gray-700" />}
-                      {platform === 'twitter' && <Twitter className="w-5 h-5 text-gray-700" />}
-                      {platform === 'facebook' && <Facebook className="w-5 h-5 text-gray-700" />}
-                      {platform === 'linkedin' && <Linkedin className="w-5 h-5 text-gray-700" />}
-                    </motion.a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Enhanced CTA Section */}
       <motion.div 

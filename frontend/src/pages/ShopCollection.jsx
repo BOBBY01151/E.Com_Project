@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
+import LoadingScreen from '../components/LoadingScreen'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { 
@@ -202,6 +204,7 @@ const ShopCollection = () => {
   const [filteredProducts, setFilteredProducts] = useState(allProducts)
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   // Hero images specifically for Premium Collection
   const heroImages = [
@@ -224,6 +227,15 @@ const ShopCollection = () => {
       subtitle: 'Handcrafted leather with timeless design and premium materials'
     }
   ]
+
+  // Loading timer effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   // Auto-rotate hero images every 6 seconds
   useEffect(() => {
@@ -380,9 +392,24 @@ const ShopCollection = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation Bar with Smooth Scrolling */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 transition-all duration-300">
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <LoadingScreen 
+          key="loading"
+          title="LUXE Shop"
+          subtitle="Discover our premium collection"
+        />
+      ) : (
+        <motion.div 
+          key="shop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="min-h-screen bg-gray-50"
+        >
+          {/* Navigation Bar with Smooth Scrolling */}
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo/Brand */}
@@ -916,7 +943,9 @@ const ShopCollection = () => {
           </div>
         </div>
       </footer>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
