@@ -23,24 +23,9 @@ import AdminDashboard from './pages/AdminDashboard'
 import AdminProducts from './pages/AdminProducts'
 import AdminOrders from './pages/AdminOrders'
 
-// Create placeholder components for missing pages
-const AboutUs = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4">About Us</h1>
-      <p className="text-lg text-gray-600">Welcome to LUXE - Your premium fashion destination.</p>
-    </div>
-  </div>
-);
-
-const ContactUs = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-      <p className="text-lg text-gray-600">Get in touch with our team.</p>
-    </div>
-  </div>
-);
+// Import the proper pages
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 
 // Redux
 import { reset } from './store/slices/authSlice'
