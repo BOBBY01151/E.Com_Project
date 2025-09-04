@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { ShoppingCart, Heart, Star, Eye } from 'lucide-react';
-import { addToCart } from '../store/slices/cartSlice';
 import { Button } from './ui/button';
 import { Card, CardContent, CardFooter } from './ui/card';
+import { useCart } from '../FigmaUI/src/contexts/CartContext';
 
 const ModernProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const dispatch = useDispatch();
+  const { addToCart } = useCart();
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(addToCart({
+    addToCart({
       id: product._id,
       name: product.name,
       price: product.price,
       image: product.image,
-      quantity: 1
-    }));
+      category: 'clothing'
+    });
   };
 
   const handleWishlist = (e) => {

@@ -9,14 +9,17 @@ import { UserProfilePage } from "./components/UserProfilePage";
 import { ShopCollection } from "./components/ShopCollection";
 import { AboutUsPage } from "./components/AboutUsPage";
 import { ContactUsPage } from "./components/ContactUsPage";
+import { ShoppingCartPage } from "./components/ShoppingCartPage";
 import { Button } from "./components/ui/button";
-import { User, Home, ShoppingBag, Info, Mail } from "lucide-react";
+import { User, Home, ShoppingBag, Info, Mail, ShoppingCart } from "lucide-react";
+import { CartProvider } from "./contexts/CartContext";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'profile' | 'shop' | 'about' | 'contact'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'profile' | 'shop' | 'about' | 'contact' | 'cart'>('home');
 
   return (
-    <div className="min-h-screen bg-white">
+    <CartProvider>
+      <div className="min-h-screen bg-white">
       {/* Simple Navigation Demo */}
       <div className="fixed top-20 right-4 z-40 flex flex-col gap-2">
         <Button
@@ -56,6 +59,20 @@ export default function App() {
           Contact
         </Button>
         <Button
+          onClick={() => setCurrentPage('cart')}
+          variant={currentPage === 'cart' ? 'default' : 'outline'}
+          size="sm"
+          className="shadow-lg relative"
+        >
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          Cart
+          {cartItemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {cartItemCount}
+            </span>
+          )}
+        </Button>
+        <Button
           onClick={() => setCurrentPage('profile')}
           variant={currentPage === 'profile' ? 'default' : 'outline'}
           size="sm"
@@ -66,7 +83,11 @@ export default function App() {
         </Button>
       </div>
 
-      <Header />
+      <Header 
+        onCartClick={() => setCurrentPage('cart')}
+        onProfileClick={() => setCurrentPage('profile')}
+        cartItemCount={cartItemCount}
+      />
       
       {currentPage === 'home' ? (
         <main className="pt-0">
@@ -107,6 +128,10 @@ export default function App() {
         <main className="pt-16">
           <ContactUsPage />
         </main>
+      ) : currentPage === 'cart' ? (
+        <main className="pt-16">
+          <ShoppingCartPage onCartUpdate={setCartItemCount} />
+        </main>
       ) : (
         <main className="pt-16">
           <UserProfilePage />
@@ -114,6 +139,7 @@ export default function App() {
       )}
       
       <Footer />
-    </div>
+      </div>
+    </CartProvider>
   );
 }

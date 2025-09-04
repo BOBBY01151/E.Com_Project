@@ -19,6 +19,7 @@ import {
   ArrowUpDown
 } from "lucide-react";
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useCart } from '../contexts/CartContext';
 
 // Mock product data
 const denimProducts = [
@@ -177,8 +178,8 @@ export function ShopCollection() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [cart, setCart] = useState<Set<string>>(new Set());
   const [filteredProducts, setFilteredProducts] = useState(allProducts);
+  const { addToCart, isInCart, getTotalItems } = useCart();
 
   useEffect(() => {
     let products = selectedCategory === 'all' ? allProducts : allProducts.filter(p => p.category === selectedCategory);
@@ -216,10 +217,20 @@ export function ShopCollection() {
     setFavorites(newFavorites);
   };
 
-  const addToCart = (productId: string) => {
-    const newCart = new Set(cart);
-    newCart.add(productId);
-    setCart(newCart);
+  const handleAddToCart = (product: any) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      category: product.category,
+      color: product.color,
+      size: product.size?.[0], // Use first available size as default
+      description: product.description,
+      rating: product.rating,
+      reviews: product.reviews,
+    });
   };
 
   const ProductCard = ({ product, isListView = false }: { product: any, isListView?: boolean }) => (
@@ -262,7 +273,7 @@ export function ShopCollection() {
             variant="outline"
             size="icon"
             className="w-8 h-8 bg-white/90 border-black hover:bg-black hover:text-white"
-            onClick={() => addToCart(product.id)}
+            onClick={() => handleAddToCart(product)}
           >
             <ShoppingCart className="w-4 h-4" />
           </Button>
@@ -299,9 +310,9 @@ export function ShopCollection() {
             <Button 
               size="sm"
               className="bg-black text-white hover:bg-gray-800"
-              onClick={() => addToCart(product.id)}
+              onClick={() => handleAddToCart(product)}
             >
-              {cart.has(product.id) ? 'Added' : 'Add to Cart'}
+              {isInCart(product.id) ? 'Added' : 'Add to Cart'}
             </Button>
           </div>
         </div>
@@ -407,7 +418,7 @@ export function ShopCollection() {
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>{favorites.size} favorited</span>
             <span>•</span>
-            <span>{cart.size} in cart</span>
+            <span>{getTotalItems()} in cart</span>
           </div>
         </div>
 

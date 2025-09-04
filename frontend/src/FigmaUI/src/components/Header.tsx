@@ -3,16 +3,36 @@
 import { Button } from "./ui/button";
 import { ShoppingBag, User, Search, Menu } from "lucide-react";
 import { useEffect, useState } from 'react';
+import { useCart } from '../contexts/CartContext';
 
 
-export function Header() {
+interface HeaderProps {
+  onCartClick?: () => void;
+  onProfileClick?: () => void;
+  cartItemCount?: number;
+}
+
+export function Header({ onCartClick, onProfileClick }: HeaderProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { getTotalItems } = useCart();
   
   const handleProfileClick = () => {
-    // In a real app, this would navigate to the profile page
-    // For demo purposes, we'll just show an alert
-    alert('Navigate to Profile Page - In a real app, this would use your router (React Router, Next.js router, etc.)');
+    if (onProfileClick) {
+      onProfileClick();
+    } else {
+      // Fallback for demo purposes
+      alert('Navigate to Profile Page - In a real app, this would use your router (React Router, Next.js router, etc.)');
+    }
+  };
+
+  const handleCartClick = () => {
+    if (onCartClick) {
+      onCartClick();
+    } else {
+      // Fallback for demo purposes
+      alert('Navigate to Shopping Cart Page - In a real app, this would use your router (React Router, Next.js router, etc.)');
+    }
   };
 
   useEffect(() => {
@@ -167,8 +187,9 @@ export function Header() {
             <Button 
               variant="ghost" 
               size="icon"
+              onClick={handleCartClick}
               className={`
-                transition-all duration-300 hover:scale-110 relative group
+                transition-all duration-300 hover:scale-110 relative group cursor-pointer
                 ${isScrolled 
                   ? 'text-black hover:bg-black/10' 
                   : 'text-white hover:bg-white/20'
@@ -177,14 +198,16 @@ export function Header() {
             >
               <ShoppingBag className="h-5 w-5" />
               {/* Cart badge with parallax */}
-              <div 
-                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
-                style={{
-                  transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})`,
-                }}
-              >
-                2
-              </div>
+              {getTotalItems() > 0 && (
+                <div 
+                  className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
+                  style={{
+                    transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})`,
+                  }}
+                >
+                  {getTotalItems()}
+                </div>
+              )}
             </Button>
             
             <Button 

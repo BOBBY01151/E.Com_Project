@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { ShoppingBag, User, Search, Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../FigmaUI/src/contexts/CartContext'
 
 const FigmaHeader = () => {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { getTotalItems } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -157,14 +159,16 @@ const FigmaHeader = () => {
               style={{ color: isScrolled ? '#000' : '#fff' }}
               asChild
             >
-              <Link to="/shop">
+              <Link to="/cart">
                 <ShoppingBag className="h-5 w-5" />
-                <div 
-                  className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
-                  style={{ transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})` }}
-                >
-                  2
-                </div>
+                {getTotalItems() > 0 && (
+                  <div 
+                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold transition-all duration-300 group-hover:scale-125"
+                    style={{ transform: `rotate(${scrollProgress * 360}deg) scale(${1 + scrollProgress * 0.2})` }}
+                  >
+                    {getTotalItems()}
+                  </div>
+                )}
               </Link>
             </Button>
             <Button 

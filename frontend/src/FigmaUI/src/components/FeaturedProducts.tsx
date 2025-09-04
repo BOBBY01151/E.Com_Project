@@ -1,7 +1,8 @@
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Star, Heart } from "lucide-react";
+import { Star, Heart, ShoppingCart } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
 
 const products = [
   {
@@ -40,6 +41,21 @@ const products = [
 ];
 
 export function FeaturedProducts() {
+  const { addToCart, isInCart } = useCart();
+
+  const handleAddToCart = (product: any) => {
+    addToCart({
+      id: product.id.toString(),
+      name: product.name,
+      price: parseFloat(product.price.replace('$', '')),
+      originalPrice: product.originalPrice ? parseFloat(product.originalPrice.replace('$', '')) : undefined,
+      image: product.image,
+      category: product.category,
+      rating: product.rating,
+      reviews: product.reviews,
+    });
+  };
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,8 +149,13 @@ export function FeaturedProducts() {
                       )}
                     </div>
                     
-                    <Button size="sm" className="bg-black text-white hover:bg-gray-800">
-                      Add to Cart
+                    <Button 
+                      size="sm" 
+                      className="bg-black text-white hover:bg-gray-800"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      {isInCart(product.id.toString()) ? 'Added' : 'Add to Cart'}
                     </Button>
                   </div>
                 </div>

@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { getFeaturedProducts } from '../store/slices/productSlice'
 import ModernProductCard from '../components/ModernProductCard'
-import LoadingScreen from '../components/LoadingScreen'
+
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
+import { useCart } from '../FigmaUI/src/contexts/CartContext'
 import { 
   ArrowRight, 
   Star, 
@@ -30,21 +31,10 @@ import {
 const Home = () => {
   const dispatch = useDispatch()
   const { featuredProducts, isLoading } = useSelector((state) => state.products)
+  const { addToCart } = useCart()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
-  const [loading, setLoading] = useState(true)
   const heroRef = useRef(null)
-
-  useEffect(() => {
-    // Loading animation
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
 
   useEffect(() => {
     dispatch(getFeaturedProducts())
@@ -132,10 +122,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
+      <>
           {/* Clear Hero Section - Premium Fashion Landing */}
           <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden">
             {/* Background Image Slider with Enhanced Parallax */}
@@ -368,7 +355,16 @@ const Home = () => {
                         
                         {/* Quick Add Overlay */}
                         <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                          <Button className="bg-white text-black hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                          <Button 
+                            className="bg-white text-black hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                            onClick={() => addToCart({
+                              id: product._id,
+                              name: product.name,
+                              price: product.price,
+                              image: product.image,
+                              category: 'clothing'
+                            })}
+                          >
                             <ShoppingBag className="w-4 h-4 mr-2" />
                             Quick Add
                           </Button>
@@ -391,6 +387,13 @@ const Home = () => {
                         <Button 
                           className="w-full bg-black text-white hover:bg-gray-800"
                           size="lg"
+                          onClick={() => addToCart({
+                            id: product._id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            category: 'clothing'
+                          })}
                         >
                           Add to Cart
                           <ArrowRight className="w-4 h-4 ml-2" />
@@ -483,7 +486,17 @@ const Home = () => {
                           </span>
                         </div>
                         
-                        <Button size="sm" className="bg-black text-white hover:bg-gray-800">
+                        <Button 
+                          size="sm" 
+                          className="bg-black text-white hover:bg-gray-800"
+                          onClick={() => addToCart({
+                            id: product._id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            category: 'clothing'
+                          })}
+                        >
                           Add to Cart
                         </Button>
                       </div>
@@ -720,9 +733,8 @@ const Home = () => {
             </div>
           </footer>
         </>
-      )}
-    </div>
-  )
-}
+      </div>
+    )
+  }
 
 export default Home

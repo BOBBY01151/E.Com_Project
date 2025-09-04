@@ -13,7 +13,6 @@ import Landing3D from './pages/Landing3D'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ProductDetail from './pages/ProductDetail'
-import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Profile from './pages/Profile'
 import ShopCollection from './pages/ShopCollection'
@@ -23,12 +22,18 @@ import AdminDashboard from './pages/AdminDashboard'
 import AdminProducts from './pages/AdminProducts'
 import AdminOrders from './pages/AdminOrders'
 
+// FigmaUI Components
+import { ShoppingCartPage } from './FigmaUI/src/components/ShoppingCartPage'
+
 // Import the proper pages
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 
 // Redux
 import { reset } from './store/slices/authSlice'
+
+// FigmaUI Cart Context
+import { CartProvider } from './FigmaUI/src/contexts/CartContext'
 
 function App() {
   const dispatch = useDispatch()
@@ -70,7 +75,8 @@ function App() {
   }, [isDarkMode])
 
   return (
-    <div className={`min-h-screen bg-background ${isDarkMode ? 'dark' : ''}`}>
+    <CartProvider>
+      <div className={`min-h-screen bg-background ${isDarkMode ? 'dark' : ''}`}>
       {/* Background Decorative Elements with Parallax */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div 
@@ -114,7 +120,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/shop" element={<ShopCollection />} />
           <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<ShoppingCartPage />} />
           
           {/* Protected Routes */}
           <Route path="/checkout" element={
@@ -162,7 +168,8 @@ function App() {
       </main>
 
       {/* Footer removed to avoid duplication with page-level footer */}
-    </div>
+      </div>
+    </CartProvider>
   )
 }
 
