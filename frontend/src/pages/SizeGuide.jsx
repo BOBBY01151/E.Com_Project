@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import LoadingScreen from "../components/LoadingScreen";
 import { 
   Ruler, 
   ShirtIcon, 
@@ -16,11 +17,23 @@ import {
 
 const SizeGuide = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Loading effect simulation
+  useEffect(() => {
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+      setContentLoaded(true);
+    }, 2000); // 2 second loading
+
+    return () => clearTimeout(loadingTimer);
   }, []);
 
   // Size data for each category
@@ -59,7 +72,22 @@ const SizeGuide = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <>
+      <AnimatePresence>
+        {isLoading && (
+          <LoadingScreen 
+            title="SIZE GUIDE" 
+            subtitle="Finding your perfect fit..." 
+          />
+        )}
+      </AnimatePresence>
+      
+      <motion.div 
+        className="min-h-screen bg-white dark:bg-gray-900"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: contentLoaded ? 1 : 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
       {/* Enhanced Hero Section with Parallax */}
       <div className="relative h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
         {/* Background Images with Parallax */}
@@ -219,9 +247,8 @@ const SizeGuide = () => {
         <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            animate={{ opacity: contentLoaded ? 1 : 0, y: contentLoaded ? 0 : 50 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
             className="text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl mb-4 font-bold text-gray-900 dark:text-white">Find Your Perfect Fit</h2>
@@ -230,8 +257,13 @@ const SizeGuide = () => {
             </p>
           </motion.div>
 
-          <Tabs defaultValue="shoes" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-12 bg-gray-100 dark:bg-gray-800 h-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: contentLoaded ? 1 : 0, y: contentLoaded ? 0 : 30 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            <Tabs defaultValue="shoes" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-12 bg-gray-100 dark:bg-gray-800 h-16">
               <TabsTrigger value="shoes" className="flex items-center gap-2 data-[state=active]:bg-black data-[state=active]:text-white h-full text-base">
                 <Footprints className="w-5 h-5" />
                 Shoes
@@ -555,13 +587,13 @@ const SizeGuide = () => {
               </motion.div>
             </TabsContent>
           </Tabs>
+          </motion.div>
 
           {/* Additional Information with Parallax */}
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            animate={{ opacity: contentLoaded ? 1 : 0, y: contentLoaded ? 0 : 50 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
             className="mt-20 grid md:grid-cols-3 gap-8"
           >
             <Card className="bg-gradient-to-br from-black to-gray-800 text-white border-0 hover:scale-105 transition-transform duration-300">
@@ -600,7 +632,8 @@ const SizeGuide = () => {
           </motion.div>
         </div>
       </div>
-    </div>
+      </motion.div>
+    </>
   );
 };
 
