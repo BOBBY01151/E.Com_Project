@@ -701,6 +701,7 @@ const Home = () => {
                   <ul className="space-y-3">
                     <li><Link to="/size-guide" className="text-gray-400 hover:text-white transition-colors">Size Guide</Link></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Returns & Exchanges</a></li>
+                    <li><Link to="/support" className="text-gray-400 hover:text-white transition-colors">Support</Link></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Shipping Info</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
                   </ul>

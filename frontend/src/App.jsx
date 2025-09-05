@@ -29,6 +29,7 @@ import { ShoppingCartPage } from './FigmaUI/src/components/ShoppingCartPage'
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import SizeGuide from './pages/SizeGuide';
+import Support from './pages/Support';
 
 // Redux
 import { reset } from './store/slices/authSlice'
@@ -166,6 +167,7 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
       </main>
 
