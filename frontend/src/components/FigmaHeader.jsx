@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
-import { ShoppingBag, User, Search, Menu } from 'lucide-react'
+import { ShoppingBag, User, Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../FigmaUI/src/contexts/CartContext'
 
@@ -70,7 +70,7 @@ const FigmaHeader = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="flex items-center space-x-4 sm:space-x-6 lg:space-x-8">
             {navItems.map((item, index) => (
               item.href.startsWith('#') ? (
                 <a 
@@ -88,7 +88,9 @@ const FigmaHeader = () => {
                   }}
                   className={`
                     font-medium transition-all duration-300 hover:scale-110 relative group cursor-pointer
-                    ${isScrolled ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}
+                    ${isScrolled ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}
+                    px-3 py-1 rounded-md
+                    ${isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/20'}
                   `}
                   style={{
                     transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
@@ -109,7 +111,9 @@ const FigmaHeader = () => {
                   to={item.href}
                   className={`
                     font-medium transition-all duration-300 hover:scale-110 relative group cursor-pointer
-                    ${isScrolled ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}
+                    ${isScrolled ? 'text-gray-800 hover:text-black' : 'text-white hover:text-gray-200'}
+                    px-3 py-1 rounded-md
+                    ${isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/20'}
                   `}
                   style={{
                     transform: `translateY(${scrollProgress * (index * 2 + 5)}px) scale(${1 - scrollProgress * 0.05})`,
@@ -171,14 +175,6 @@ const FigmaHeader = () => {
                 )}
               </Link>
             </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className={`md:hidden transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
-              style={{ color: isScrolled ? '#000' : '#fff' }}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
           </div>
         </div>
       </div>
@@ -192,6 +188,7 @@ const FigmaHeader = () => {
         }`}
         style={{ width: `${scrollProgress * 100}%`, opacity: scrollProgress > 0.1 ? 1 : 0 }}
       />
+
     </header>
   )
 }
