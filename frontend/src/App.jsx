@@ -28,6 +28,7 @@ import { ShoppingCartPage } from './FigmaUI/src/components/ShoppingCartPage'
 // Import the proper pages
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import SizeGuide from './pages/SizeGuide';
 
 // Redux
 import { reset } from './store/slices/authSlice'
@@ -164,6 +165,7 @@ function App() {
           {/* Placeholder Routes */}
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
         </Routes>
       </main>
 

@@ -691,6 +691,7 @@ const Home = () => {
                     <li><a href="#featured" className="text-gray-400 hover:text-white transition-colors">Featured</a></li>
                     <li><a href="#testimonials" className="text-gray-400 hover:text-white transition-colors">Testimonials</a></li>
                     <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">All Products</Link></li>
+                    <li><Link to="/size-guide" className="text-gray-400 hover:text-white transition-colors">Size Guide</Link></li>
                   </ul>
                 </div>
 
@@ -698,7 +699,7 @@ const Home = () => {
                 <div>
                   <h4 className="font-semibold text-lg mb-4">Support</h4>
                   <ul className="space-y-3">
-                    <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Size Guide</a></li>
+                    <li><Link to="/size-guide" className="text-gray-400 hover:text-white transition-colors">Size Guide</Link></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Returns & Exchanges</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Shipping Info</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
@@ -713,6 +714,7 @@ const Home = () => {
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Sustainability</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
+                    <li><Link to="/size-guide" className="text-gray-400 hover:text-white transition-colors">Size Guide</Link></li>
                   </ul>
                 </div>
               </div>

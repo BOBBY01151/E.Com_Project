@@ -25,6 +25,7 @@ const FigmaHeader = () => {
   const navItems = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
+    { name: 'Size Guide', href: '/size-guide' },
     { name: 'AboutUs', href: '/aboutus' },
     { name: 'ContactUs', href: '/contactus' },
   ]
