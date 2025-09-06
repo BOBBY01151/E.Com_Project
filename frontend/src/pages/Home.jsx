@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { getFeaturedProducts } from '../store/slices/productSlice'
 import ModernProductCard from '../components/ModernProductCard'
+import LoadingScreen from '../components/LoadingScreen'
 
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
@@ -34,6 +35,7 @@ const Home = () => {
   const { addToCart } = useCart()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
+  const [isPageLoading, setIsPageLoading] = useState(true)
   const heroRef = useRef(null)
 
   useEffect(() => {
@@ -46,6 +48,28 @@ const Home = () => {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Handle page loading effect - combine with data loading
+  useEffect(() => {
+    const minLoadingTime = 2000 // Minimum loading time for smooth UX
+    const startTime = Date.now()
+    
+    const checkLoadingComplete = () => {
+      const elapsedTime = Date.now() - startTime
+      const dataLoaded = !isLoading && featuredProducts.length > 0
+      
+      if (dataLoaded && elapsedTime >= minLoadingTime) {
+        setIsPageLoading(false)
+      } else if (elapsedTime >= minLoadingTime + 1000) {
+        // Fallback: stop loading after max time even if data isn't ready
+        setIsPageLoading(false)
+      } else {
+        setTimeout(checkLoadingComplete, 100)
+      }
+    }
+    
+    checkLoadingComplete()
+  }, [isLoading, featuredProducts])
 
   // Enhanced hero images with better titles/subtitles matching ShopCollection style
   const heroImages = [
@@ -122,7 +146,21 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <>
+      <AnimatePresence>
+        {isPageLoading && (
+          <LoadingScreen 
+            title="LUXE" 
+            subtitle="Welcome to premium fashion" 
+          />
+        )}
+      </AnimatePresence>
+      
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isPageLoading ? 0 : 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className={isPageLoading ? "pointer-events-none" : ""}
+      >
           {/* Clear Hero Section - Premium Fashion Landing */}
           <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden">
             {/* Background Image Slider with Enhanced Parallax */}
@@ -535,15 +573,32 @@ const Home = () => {
               </div>
 
               {isLoading ? (
-                <div className="flex justify-center">
-                  <div className="loading-shimmer w-12 h-12 rounded-full"></div>
+                <div className="flex justify-center items-center py-20">
+                  <motion.div 
+                    className="flex flex-col items-center space-y-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <motion.div 
+                      className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <p className="text-gray-600 font-medium">Loading featured products...</p>
+                  </motion.div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <motion.div 
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
                   {featuredProducts.map((product) => (
                     <ModernProductCard key={product._id} product={product} />
                   ))}
-                </div>
+                </motion.div>
               )}
 
               <div className="text-center mt-12">
@@ -735,9 +790,9 @@ const Home = () => {
               </div>
             </div>
           </footer>
-        </>
-      </div>
-    )
-  }
+      </motion.div>
+    </div>
+  )
+}
 
 export default Home
