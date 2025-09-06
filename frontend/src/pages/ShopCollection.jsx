@@ -206,7 +206,7 @@ const ShopCollection = () => {
   const [scrollY, setScrollY] = useState(0)
   const [loading, setLoading] = useState(true)
   
-  // Use cart context
+  // Use cart context - integrated with global cart
   const { addToCart, cartItems } = useCart()
 
   // Hero images specifically for Premium Collection
