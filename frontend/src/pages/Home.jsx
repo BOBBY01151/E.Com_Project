@@ -758,7 +758,7 @@ const Home = () => {
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Returns & Exchanges</a></li>
                     <li><Link to="/support" className="text-gray-400 hover:text-white transition-colors">Support</Link></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Shipping Info</a></li>
-                    <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                    <li><Link to="/contactus" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link></li>
                   </ul>
                 </div>
 
@@ -766,7 +766,7 @@ const Home = () => {
                 <div>
                   <h4 className="font-semibold text-lg mb-4">Company</h4>
                   <ul className="space-y-3">
-                    <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                    <li><Link to="/aboutus" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Sustainability</a></li>
                     <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
@@ -782,7 +782,7 @@ const Home = () => {
                     © {new Date().getFullYear()} LUXE. All rights reserved.
                   </div>
                   <div className="flex space-x-6 text-sm">
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>
                     <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
                     <a href="#" className="text-gray-400 hover:text-white transition-colors">Cookies</a>
                   </div>
