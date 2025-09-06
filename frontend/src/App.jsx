@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast'
 // Components
 import FigmaHeader from './components/FigmaHeader'
 import ProtectedRoute from './components/ProtectedRoute'
+import HomeFooter from './components/HomeFooter'
 
 // Pages
 import Home from './pages/Home'
@@ -173,7 +174,8 @@ function App() {
         </Routes>
       </main>
 
-      {/* Footer removed to avoid duplication with page-level footer */}
+      {/* Global Footer */}
+      <HomeFooter />
       </div>
     </CartProvider>
   )
