@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import LoadingScreen from '../components/LoadingScreen'
+import { useCart } from '../FigmaUI/src/contexts/CartContext'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { 
@@ -200,11 +201,13 @@ const ShopCollection = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [viewMode, setViewMode] = useState('grid')
   const [favorites, setFavorites] = useState(new Set())
-  const [cart, setCart] = useState(new Set())
   const [filteredProducts, setFilteredProducts] = useState(allProducts)
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
   const [loading, setLoading] = useState(true)
+  
+  // Use cart context
+  const { addToCart, cartItems } = useCart()
 
   // Hero images specifically for Premium Collection
   const heroImages = [
@@ -292,10 +295,16 @@ const ShopCollection = () => {
     setFavorites(newFavorites)
   }
 
-  const addToCart = (productId) => {
-    const newCart = new Set(cart)
-    newCart.add(productId)
-    setCart(newCart)
+  const handleAddToCart = (product) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      category: product.category,
+      size: product.size[0], // Default to first size
+      color: product.color
+    })
   }
 
   const ProductCard = ({ product, isListView = false }) => (
@@ -336,7 +345,7 @@ const ShopCollection = () => {
             variant="ghost"
             size="icon"
             className="bg-white/90 hover:bg-white"
-            onClick={() => addToCart(product.id)}
+            onClick={() => handleAddToCart(product)}
           >
             <ShoppingCart className="h-4 w-4 text-gray-600" />
           </Button>
@@ -440,9 +449,16 @@ const ShopCollection = () => {
               <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500">
                 <Heart className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500">
-                <ShoppingCart className="w-4 h-4" />
-              </Button>
+              <Link to="/cart">
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500 relative">
+                  <ShoppingCart className="w-4 h-4" />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </Button>
+              </Link>
               <Button size="sm" className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-300 hover:to-orange-300">
                 Sign In
               </Button>
@@ -779,7 +795,7 @@ const ShopCollection = () => {
             <span>•</span>
             <span className="flex items-center gap-1">
               <ShoppingCart className="w-4 h-4 text-blue-400" />
-              {cart.size} in cart
+              {cartItems.length} in cart
             </span>
           </div>
         </div>
