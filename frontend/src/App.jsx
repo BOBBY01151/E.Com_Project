@@ -32,6 +32,7 @@ import ContactUs from './pages/ContactUs';
 import SizeGuide from './pages/SizeGuide';
 import Support from './pages/Support';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ReturnsExchange from './pages/ReturnsExchange';
 
 // Redux
 import { reset } from './store/slices/authSlice'
@@ -171,6 +172,7 @@ function App() {
           <Route path="/size-guide" element={<SizeGuide />} />
           <Route path="/support" element={<Support />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/returns-exchange" element={<ReturnsExchange />} />
         </Routes>
       </main>
 
