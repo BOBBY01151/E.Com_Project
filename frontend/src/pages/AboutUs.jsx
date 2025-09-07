@@ -236,7 +236,7 @@ const AboutUs = () => {
       {/* Enhanced Hero Section */}
       <motion.div 
         ref={heroRef}
-        className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
+        className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden -mt-16 pt-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -306,7 +306,7 @@ const AboutUs = () => {
 
         {/* Parallax Text Content */}
         <motion.div 
-          className="relative h-full flex items-center"
+          className="relative h-full flex items-center pt-16"
           style={{ y: yText, opacity }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

@@ -139,7 +139,7 @@ const ContactUs = () => {
             {/* Enhanced Hero Section */}
             <motion.div 
               ref={heroRef}
-              className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
+              className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden -mt-16 pt-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -187,7 +187,7 @@ const ContactUs = () => {
 
         {/* Parallax Text Content */}
         <motion.div 
-          className="relative h-full flex items-center"
+          className="relative h-full flex items-center pt-16"
           style={{ 
             transform: `translateY(${mousePosition.y * 0.05}px)` 
           }}

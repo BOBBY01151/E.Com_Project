@@ -113,7 +113,7 @@ const ReturnsExchange = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
       {/* Enhanced Hero Section with Parallax */}
-      <div className="relative h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
+      <div className="relative h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white -mt-16 pt-16">
         {/* Background Images with Parallax */}
         <div className="absolute inset-0">
           <div 
@@ -194,7 +194,7 @@ const ReturnsExchange = () => {
         </div>
 
         {/* Main Content */}
-        <div className="relative flex items-center justify-center min-h-screen px-4 z-10">
+        <div className="relative flex items-center justify-center min-h-screen px-4 z-10 pt-16">
           <div className="text-center max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 50 }}

@@ -163,7 +163,7 @@ const Support = () => {
         className={isPageLoading ? "pointer-events-none" : ""}
       >
         {/* Clear Hero Section - Support Landing */}
-        <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden">
+        <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden -mt-16 pt-16">
           {/* Background Image Slider with Enhanced Parallax */}
           <div className="absolute inset-0">
             {heroImages.map((image, index) => (
@@ -186,7 +186,7 @@ const Support = () => {
           </div>
 
           {/* Hero Content - Clear and Focused */}
-          <div className="relative z-10 min-h-screen flex items-center">
+          <div className="relative z-10 min-h-screen flex items-center pt-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left Content - Clear Hero Message */}
