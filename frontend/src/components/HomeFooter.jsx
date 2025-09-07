@@ -87,7 +87,7 @@ const HomeFooter = () => {
             <h4 className="font-semibold text-lg mb-4">Company</h4>
             <ul className="space-y-3">
               <li><Link to="/aboutus" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+              <li><Link to="/careers" className="text-gray-400 hover:text-white transition-colors">Careers</Link></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Sustainability</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
               <li><Link to="/size-guide" className="text-gray-400 hover:text-white transition-colors">Size Guide</Link></li>
