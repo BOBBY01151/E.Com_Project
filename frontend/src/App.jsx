@@ -34,6 +34,7 @@ import Support from './pages/Support';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ReturnsExchange from './pages/ReturnsExchange';
 import Careers from './pages/Careers';
+import Cookies from './pages/Cookies';
 
 // Redux
 import { reset } from './store/slices/authSlice'
@@ -175,6 +176,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/returns-exchange" element={<ReturnsExchange />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/cookies" element={<Cookies />} />
         </Routes>
       </main>
 

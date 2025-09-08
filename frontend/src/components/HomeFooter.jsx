@@ -104,7 +104,7 @@ const HomeFooter = () => {
             <div className="flex space-x-6 text-sm">
               <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Cookies</a>
+              <Link to="/cookies" className="text-gray-400 hover:text-white transition-colors">Cookies</Link>
             </div>
           </div>
         </div>
