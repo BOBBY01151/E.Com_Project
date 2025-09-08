@@ -117,7 +117,7 @@ export function UserProfile({ onClose }: UserProfileProps) {
   const handleSaveProfile = async () => {
     setIsLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     setUser({ ...editData, avatar: profileImage });
     setIsEditing(false);
     setIsLoading(false);

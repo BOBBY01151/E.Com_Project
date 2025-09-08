@@ -50,7 +50,7 @@ export function ShoppingCartPage() {
     // Loading animation
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 2000);
 
     // Mouse tracking for parallax
     const handleMouseMove = (e: MouseEvent) => {

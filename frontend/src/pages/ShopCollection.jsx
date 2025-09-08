@@ -213,19 +213,19 @@ const ShopCollection = () => {
   const heroImages = [
     {
       id: 1,
-      url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwZmFzaGlvbiUyMGJvdXRpcXVlfGVufDF8fHx8MTc1NjcwNDcwOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      url: '/src/Images/photo-1635855374289-b6ca7fe114ab.jpeg',
       title: 'Premium Denim Collection',
       subtitle: 'Authentic Japanese selvedge construction with luxury Italian fabrics'
     },
     {
       id: 2,
-      url: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbG90aGluZyUyMHN0b3JlfGVufDF8fHx8MTc1NjcwNDcxMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      url: '/src/Images/photo-1635855374289-b6ca7fe114ab (1).jpeg',
       title: 'Luxury T-Shirt Collection',
       subtitle: 'Ultra-premium Pima cotton with exceptional softness and durability'
     },
     {
       id: 3,
-      url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHNuZWFrZXJzJTIwc3RvcmV8ZW58MXx8fHx8MTc1NjcwNDcxMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      url: '/src/Images/photo-1637228393246-c38a4b3d2011.jpeg',
       title: 'Designer Footwear Collection',
       subtitle: 'Handcrafted leather with timeless design and premium materials'
     }
@@ -240,13 +240,13 @@ const ShopCollection = () => {
     return () => clearTimeout(timer)
   }, [])
 
-  // Auto-rotate hero images every 6 seconds
+  // Auto-rotate hero images every 4 seconds
   useEffect(() => {
     const heroInterval = setInterval(() => {
       setCurrentHeroIndex((prevIndex) => 
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       )
-    }, 6000)
+    }, 4000)
 
     return () => clearInterval(heroInterval)
   }, [heroImages.length])
@@ -468,7 +468,7 @@ const ShopCollection = () => {
       </nav>
 
       {/* Enhanced Hero Section - Premium Collection Showcase */}
-      <section id="hero" className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden">
+      <section id="hero" className="relative min-h-screen bg-gradient-to-br from-black via-gray-800 to-black text-white overflow-hidden -mt-16 pt-16">
         {/* Background Image Slider with Enhanced Parallax */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
@@ -491,7 +491,7 @@ const ShopCollection = () => {
         </div>
 
         {/* Hero Content - Premium Collection Focus */}
-        <div className="relative z-10 min-h-screen flex items-center">
+        <div className="relative z-10 min-h-screen flex items-center pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Content - Premium Collection Message */}
@@ -531,9 +531,8 @@ const ShopCollection = () => {
                     Shop Now
                   </Button>
                   <Button 
-                    variant="outline" 
                     size="lg" 
-                    className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold backdrop-blur-sm transition-all duration-300"
+                    className="bg-black text-white hover:bg-gray-800 px-8 py-6 text-lg font-semibold transition-all duration-300"
                   >
                     View Lookbook
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -598,11 +597,11 @@ const ShopCollection = () => {
                     {/* Premium Benefits */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-white/15 rounded-xl p-4 text-center border border-white/20">
-                        <div className="text-2xl font-bold text-yellow-400">Free</div>
+                        <div className="text-2xl font-bold text-yellow-400">Cash On Delivery</div>
                         <div className="text-sm text-white/80">Shipping</div>
                       </div>
                       <div className="bg-white/15 rounded-xl p-4 text-center border border-white/20">
-                        <div className="text-2xl font-bold text-yellow-400">30d</div>
+                        <div className="text-2xl font-bold text-yellow-400">10d</div>
                         <div className="text-sm text-white/80">Returns</div>
                       </div>
                     </div>
@@ -624,8 +623,8 @@ const ShopCollection = () => {
           </div>
         </div>
         <div 
-          className="absolute bottom-32 left-20 bg-black border-2 border-yellow-400 text-white rounded-full p-6 shadow-2xl hidden lg:block"
-          style={{ transform: `translateY(${Math.min(scrollY, 200) * 0.3}px) scale(${1 - Math.min(scrollY, 200) / 700})` }}
+          className="absolute top-20 right-40 bg-black border-2 border-yellow-400 text-white rounded-full p-6 shadow-2xl hidden lg:block"
+          style={{ transform: `translateY(${Math.min(scrollY, 200) * -0.2}px) scale(${1 - Math.min(scrollY, 200) / 700})` }}
         >
           <div className="text-center">
             <div className="text-2xl font-bold text-yellow-400">New</div>
@@ -678,58 +677,58 @@ const ShopCollection = () => {
         {/* Category Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div 
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+            className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-lg shadow-xl ${
               selectedCategory === 'all' 
-                ? 'border-yellow-400 bg-yellow-400/10' 
-                : 'border-gray-200 bg-white hover:border-yellow-300 hover:bg-yellow-400/5'
+                ? 'border-2 border-yellow-400 bg-yellow-400/20 text-white' 
+                : 'border border-white/20 bg-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 text-gray-900'
             }`}
             onClick={() => setSelectedCategory('all')}
           >
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900 mb-1">{allProducts.length}</div>
-              <div className="text-sm text-gray-600">All Products</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'all' ? 'text-yellow-400' : 'text-gray-900'}`}>{allProducts.length}</div>
+              <div className={`text-sm font-medium ${selectedCategory === 'all' ? 'text-white/90' : 'text-gray-600'}`}>All Products</div>
             </div>
           </div>
           
           <div 
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+            className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-lg shadow-xl ${
               selectedCategory === 'denim' 
-                ? 'border-yellow-400 bg-yellow-400/10' 
-                : 'border-gray-200 bg-white hover:border-yellow-300 hover:bg-yellow-400/5'
+                ? 'border-2 border-yellow-400 bg-yellow-400/20 text-white' 
+                : 'border border-white/20 bg-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 text-gray-900'
             }`}
             onClick={() => setSelectedCategory('denim')}
           >
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900 mb-1">{denimProducts.length}</div>
-              <div className="text-sm text-gray-600">Premium Denim</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'denim' ? 'text-yellow-400' : 'text-gray-900'}`}>{denimProducts.length}</div>
+              <div className={`text-sm font-medium ${selectedCategory === 'denim' ? 'text-white/90' : 'text-gray-600'}`}>Premium Denim</div>
             </div>
           </div>
           
           <div 
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+            className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-lg shadow-xl ${
               selectedCategory === 'tshirts' 
-                ? 'border-yellow-400 bg-yellow-400/10' 
-                : 'border-gray-200 bg-white hover:border-yellow-300 hover:bg-yellow-400/5'
+                ? 'border-2 border-yellow-400 bg-yellow-400/20 text-white' 
+                : 'border border-white/20 bg-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 text-gray-900'
             }`}
             onClick={() => setSelectedCategory('tshirts')}
           >
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900 mb-1">{tshirtProducts.length}</div>
-              <div className="text-sm text-gray-600">Luxury T-Shirts</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'tshirts' ? 'text-yellow-400' : 'text-gray-900'}`}>{tshirtProducts.length}</div>
+              <div className={`text-sm font-medium ${selectedCategory === 'tshirts' ? 'text-white/90' : 'text-gray-600'}`}>Luxury T-Shirts</div>
             </div>
           </div>
           
           <div 
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+            className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-lg shadow-xl ${
               selectedCategory === 'shoes' 
-                ? 'border-yellow-400 bg-yellow-400/10' 
-                : 'border-gray-200 bg-white hover:border-yellow-300 hover:bg-yellow-400/5'
+                ? 'border-2 border-yellow-400 bg-yellow-400/20 text-white' 
+                : 'border border-white/20 bg-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 text-gray-900'
             }`}
             onClick={() => setSelectedCategory('shoes')}
           >
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900 mb-1">{shoeProducts.length}</div>
-              <div className="text-sm text-gray-600">Designer Shoes</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'shoes' ? 'text-yellow-400' : 'text-gray-900'}`}>{shoeProducts.length}</div>
+              <div className={`text-sm font-medium ${selectedCategory === 'shoes' ? 'text-white/90' : 'text-gray-600'}`}>Designer Shoes</div>
             </div>
           </div>
         </div>
