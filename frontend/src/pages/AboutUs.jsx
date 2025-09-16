@@ -4,10 +4,12 @@ import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Separator } from "../components/ui/separator";
+import { Link } from 'react-router-dom';
 import { 
   Award, Users, Heart, Leaf, Globe, Scissors, Star, ArrowRight, CheckCircle,
   Target, TrendingUp, Shield, Sparkles, ChevronDown, Zap, Eye, Palette,
-  Clock, MapPin, Phone, Mail, Instagram, Twitter, Facebook, Linkedin
+  Clock, MapPin, Phone, Mail, Instagram, Twitter, Facebook, Linkedin,
+  ShoppingCart
 } from "lucide-react";
 
 // Enhanced Team members data
@@ -83,8 +85,32 @@ const testimonials = [
 const AboutUs = () => {
   const [loading, setLoading] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
+
+  // Hero images for AboutUs
+  const heroImages = [
+    {
+      id: 1,
+      url: '/src/Images/photo-1517245386807-bb43f82c33c4.jpeg',
+      title: 'Our Story',
+      subtitle: 'Crafting fashion with purpose and passion since 2009'
+    },
+    {
+      id: 2,
+      url: '/src/Images/photo-1613909207039-6b173b755cc1.jpeg',
+      title: 'Our Mission',
+      subtitle: 'Creating exceptional pieces that combine timeless design with sustainable practices'
+    },
+    {
+      id: 3,
+      url: '/src/Images/premium_photo-1661770132071-026114fffb61.jpeg',
+      title: 'Our Vision',
+      subtitle: 'Leading the industry with innovation, quality, and ethical practices'
+    }
+  ];
   
   // Parallax transforms
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -106,13 +132,30 @@ const AboutUs = () => {
       });
     };
 
+    // Handle scroll for parallax effects
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Auto-rotate hero images every 4 seconds
+  useEffect(() => {
+    const heroInterval = setInterval(() => {
+      setCurrentHeroIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      )
+    }, 4000)
+
+    return () => clearInterval(heroInterval)
+  }, [heroImages.length])
 
   // Enhanced Loading screen component
   const LoadingScreen = () => (
@@ -233,21 +276,90 @@ const AboutUs = () => {
         {loading && <LoadingScreen />}
       </AnimatePresence>
       
+      {/* Navigation Bar with Smooth Scrolling */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo/Brand */}
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg"></div>
+              <span className="text-xl font-bold text-gray-900">LUXE</span>
+            </Link>
+            
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-700 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => document.getElementById('story').scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-700 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Our Story
+              </button>
+              <button 
+                onClick={() => document.getElementById('team').scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-700 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Team
+              </button>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500">
+                <Heart className="w-4 h-4" />
+              </Button>
+              <Link to="/cart">
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-yellow-500 relative">
+                  <ShoppingCart className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Button size="sm" className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black hover:from-yellow-300 hover:to-orange-300">
+                Sign In
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
       {/* Enhanced Hero Section */}
       <motion.div 
+        id="hero"
         ref={heroRef}
         className="relative h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden -mt-16 pt-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        {/* Enhanced Animated Background */}
+        {/* Enhanced Animated Background with Image Rotation */}
         <motion.div 
-          className="absolute inset-0"
+          className="absolute inset-0 -top-16"
           style={{ y: yBg, scale }}
         >
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/80" />
+          {/* Background Image Slider with Enhanced Parallax */}
+          <div className="absolute inset-0">
+            {heroImages.map((image, index) => (
+              <div
+                key={image.id}
+                className="absolute inset-0 transition-opacity duration-1000"
+                style={{
+                  opacity: index === currentHeroIndex ? 1 : 0,
+                  transform: `translateY(${scrollY * 0.5}px) scale(${1 + Math.min(scrollY / 1000, 0.2)})`
+                }}
+              >
+                <img
+                  src={image.url}
+                  alt={image.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/50"></div>
+              </div>
+            ))}
+          </div>
           
           {/* Floating Elements */}
           <motion.div
@@ -268,15 +380,6 @@ const AboutUs = () => {
             }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
-          
-          {/* Background Image */}
-          <div 
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1704729105381-f579cfcefd63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZGVzaWduJTIwc3R1ZGlvJTIwd29ya3NwYWNlfGVufDF8fHx8MTc1NjgyNjE1MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')"
-            }}
-          />
-          <div className="absolute inset-0 bg-black/70"></div>
         </motion.div>
 
         {/* Floating Elements */}
@@ -392,7 +495,7 @@ const AboutUs = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="border-white/50 text-white hover:bg-white hover:text-black px-8 py-6 backdrop-blur-sm"
+                    className="border-white/50 text-black hover:bg-white hover:text-black px-8 py-6 backdrop-blur-sm"
                   >
                     Meet Our Team
                   </Button>
@@ -483,6 +586,7 @@ const AboutUs = () => {
 
       {/* Enhanced Our Story Section */}
       <motion.div 
+        id="story"
         className="py-20"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -689,6 +793,7 @@ const AboutUs = () => {
 
       {/* Enhanced Team Section */}
       <motion.div 
+        id="team"
         className="py-20"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
