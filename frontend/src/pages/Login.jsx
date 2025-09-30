@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { login } from '../store/slices/authSlice'
 import { toast } from 'react-hot-toast'
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, Shield } from 'lucide-react'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +47,31 @@ const Login = () => {
     }
 
     dispatch(login(userData))
+  }
+
+  const handleAdminAccess = () => {
+    // Create a mock admin user for design/development purposes
+    const mockAdminUser = {
+      _id: 'admin-123',
+      name: 'Admin User',
+      email: 'admin@example.com',
+      role: 'admin',
+      token: 'mock-admin-token'
+    }
+    
+    // Store in localStorage and Redux
+    localStorage.setItem('user', JSON.stringify(mockAdminUser))
+    dispatch({ 
+      type: 'auth/loginSuccess', 
+      payload: mockAdminUser 
+    })
+    
+    toast.success('🎨 Redirecting to Admin Dashboard...')
+    
+    // Small delay to ensure state is updated before navigation
+    setTimeout(() => {
+      navigate('/admin', { replace: true })
+    }, 100)
   }
 
   return (
@@ -205,6 +230,22 @@ const Login = () => {
                 </svg>
                 <span className="ml-2">Facebook</span>
               </button>
+            </div>
+
+            {/* Admin Access Button */}
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={handleAdminAccess}
+                className="w-full inline-flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm bg-gradient-to-r from-purple-600 to-indigo-600 text-sm font-medium text-white hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 hover:scale-105 transform"
+              >
+                <Shield className="h-5 w-5 mr-2" />
+                <span>🎨 UI Design - Admin Access</span>
+                <span className="ml-2">→</span>
+              </button>
+              <p className="mt-2 text-xs text-center text-gray-500">
+                Click to go directly to Admin Dashboard (/admin)
+              </p>
             </div>
           </div>
         </div>

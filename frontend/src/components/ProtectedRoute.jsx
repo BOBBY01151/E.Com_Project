@@ -5,11 +5,11 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user } = useSelector((state) => state.auth)
 
   if (!user) {
-    return <Navigate to="/login" replace />
+    return <Navigate to={adminOnly ? "/admin/login" : "/login"} replace />
   }
 
   if (adminOnly && user.role !== 'admin') {
-    return <Navigate to="/" replace />
+    return <Navigate to="/admin/login" replace />
   }
 
   return children

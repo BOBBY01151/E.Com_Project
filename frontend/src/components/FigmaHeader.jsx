@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
-import { ShoppingBag, User, Search } from 'lucide-react'
+import { ShoppingBag, User, Search, Shield } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../FigmaUI/src/contexts/CartContext'
 
@@ -174,6 +174,19 @@ const FigmaHeader = () => {
                     {getTotalItems()}
                   </div>
                 )}
+              </Link>
+            </Button>
+            
+            {/* Admin Access Link */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className={`hidden lg:flex transition-all duration-300 hover:scale-110 ${isScrolled ? 'text-black hover:bg-black/10' : 'text-white hover:bg-white/20'}`}
+              style={{ color: isScrolled ? '#000' : '#fff' }}
+              asChild
+            >
+              <Link to="/admin/login" title="Admin Access">
+                <Shield className="h-5 w-5" />
               </Link>
             </Button>
           </div>

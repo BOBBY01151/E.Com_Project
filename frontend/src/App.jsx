@@ -19,6 +19,7 @@ import Profile from './pages/Profile'
 import ShopCollection from './pages/ShopCollection'
 import Orders from './pages/Orders'
 import OrderDetail from './pages/OrderDetail'
+import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminProducts from './pages/AdminProducts'
 import AdminOrders from './pages/AdminOrders'
@@ -152,6 +153,7 @@ function App() {
           } />
           
           {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={
             <ProtectedRoute adminOnly>
               <AdminDashboard />
