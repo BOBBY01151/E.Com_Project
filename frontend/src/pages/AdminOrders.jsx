@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { 
@@ -494,8 +494,8 @@ const AdminOrders = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredOrders.map((order) => (
-                  <>
-                    <tr key={order._id} className="hover:bg-gray-50">
+                  <React.Fragment key={order._id}>
+                    <tr className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">
@@ -660,7 +660,7 @@ const AdminOrders = () => {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
