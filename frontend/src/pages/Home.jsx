@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
+import { toast } from 'react-hot-toast'
 import { getFeaturedProducts } from '../store/slices/productSlice'
 import ModernProductCard from '../components/ModernProductCard'
 import LoadingScreen from '../components/LoadingScreen'
@@ -22,11 +23,13 @@ import {
   Search,
   SlidersHorizontal,
   ChevronDown,
-  ArrowUpDown
+  ArrowUpDown,
+  Shield
 } from 'lucide-react'
 
 const Home = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { featuredProducts, isLoading } = useSelector((state) => state.products)
   const { addToCart } = useCart()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -140,6 +143,32 @@ const Home = () => {
     return () => clearInterval(imageInterval)
   }, [heroImages.length])
 
+  // Admin access function for UI design
+  const handleAdminAccess = () => {
+    // Create a mock admin user for design/development purposes
+    const mockAdminUser = {
+      _id: 'admin-123',
+      name: 'Admin User',
+      email: 'admin@example.com',
+      role: 'admin',
+      token: 'mock-admin-token'
+    }
+    
+    // Store in localStorage and Redux
+    localStorage.setItem('user', JSON.stringify(mockAdminUser))
+    dispatch({ 
+      type: 'auth/loginSuccess', 
+      payload: mockAdminUser 
+    })
+    
+    toast.success('🎨 Redirecting to Admin Dashboard...')
+    
+    // Small delay to ensure state is updated before navigation
+    setTimeout(() => {
+      navigate('/admin', { replace: true })
+    }, 100)
+  }
+
   return (
     <div className="min-h-screen">
       <AnimatePresence>
@@ -233,6 +262,14 @@ const Home = () => {
                           Explore Styles
                           <ArrowRight className="ml-2 h-5 w-5" />
                         </Link>
+                      </Button>
+                      <Button 
+                        onClick={handleAdminAccess}
+                        size="lg" 
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 px-6 py-6 text-lg font-semibold backdrop-blur-sm transition-all duration-300 hover:scale-105 transform"
+                      >
+                        <Shield className="mr-2 h-5 w-5" />
+                        Admin
                       </Button>
                     </div>
                     
@@ -349,6 +386,20 @@ const Home = () => {
               className="absolute bottom-1/4 right-10 w-24 h-24 bg-white/10 rounded-full hidden lg:block"
               style={{ transform: `translateY(${Math.min(scrollY, 200) * -0.5}px) scale(${1 - Math.min(scrollY, 200) / 700})` }}
             />
+
+            {/* Floating Admin Access Button */}
+            <div 
+              className="fixed top-1/2 right-8 z-50 hidden lg:block"
+              style={{ transform: `translateY(${Math.min(scrollY, 200) * 0.2}px)` }}
+            >
+              <Button
+                onClick={handleAdminAccess}
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-110 transform rounded-full w-16 h-16 p-0"
+                title="Admin Dashboard Access"
+              >
+                <Shield className="h-6 w-6" />
+              </Button>
+            </div>
           </section>
 
           {/* Comfort Meets Contemporary Section */}
