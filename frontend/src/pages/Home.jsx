@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { toast } from 'react-hot-toast'
-import { getFeaturedProducts } from '../store/slices/productSlice'
+import { getFeaturedProducts, getProducts } from '../store/slices/productSlice'
 import ModernProductCard from '../components/ModernProductCard'
 import LoadingScreen from '../components/LoadingScreen'
 
@@ -30,7 +30,7 @@ import {
 const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { featuredProducts, isLoading, isError, message } = useSelector((state) => state.products)
+  const { featuredProducts, products: allProducts, isLoading, isError, message } = useSelector((state) => state.products)
   const { addToCart } = useCart()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
@@ -39,51 +39,21 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getFeaturedProducts())
+    dispatch(getProducts({ pageNumber: 1 }))
   }, [dispatch])
 
-  // Fallback data for when API fails
-  const fallbackProducts = [
-    {
-      _id: 'fallback-1',
-      name: 'Premium Denim Collection',
-      price: 89.99,
-      originalPrice: 119.99,
-      image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-      rating: 4.8,
-      reviews: 124,
-      category: 'denim'
-    },
-    {
-      _id: 'fallback-2',
-      name: 'Classic White T-Shirt',
-      price: 24.99,
-      originalPrice: 34.99,
-      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-      rating: 4.6,
-      reviews: 89,
-      category: 'tshirt'
-    },
-    {
-      _id: 'fallback-3',
-      name: 'Designer Sneakers',
-      price: 159.99,
-      originalPrice: 199.99,
-      image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400',
-      rating: 4.9,
-      reviews: 156,
-      category: 'shoes'
-    }
-  ]
+  // All products come from admin dashboard - no static fallbacks
+  const displayProducts = featuredProducts // Use only featured products from admin
+  
+  // Get all products from admin dashboard for different sections
+  const contemporaryProducts = allProducts.slice(0, 6) // First 6 products for Contemporary Design
+  const premiumCollectionProducts = allProducts.slice(0, 3) // First 3 products for Premium Collection
 
-  // Use fallback data when API fails
-  const displayProducts = isError ? fallbackProducts : featuredProducts
-
-  // Handle API errors gracefully
+  // Handle API errors gracefully - show message if no products from admin
   useEffect(() => {
     if (isError && message) {
-      console.warn('API Error (using fallback data):', message)
-      // Don't show toast for API errors in development mode
-      // toast.error('Unable to load featured products')
+      console.warn('API Error:', message)
+      toast.error('Unable to load products from admin dashboard. Please start the backend server.')
     }
   }, [isError, message])
 
@@ -101,7 +71,7 @@ const Home = () => {
     
     const checkLoadingComplete = () => {
       const elapsedTime = Date.now() - startTime
-      const dataLoaded = !isLoading && (featuredProducts.length > 0 || isError)
+      const dataLoaded = !isLoading && (allProducts.length > 0 || isError)
       
       if (dataLoaded && elapsedTime >= minLoadingTime) {
         setIsPageLoading(false)
@@ -114,7 +84,7 @@ const Home = () => {
     }
     
     checkLoadingComplete()
-  }, [isLoading, featuredProducts, isError])
+  }, [isLoading, allProducts, isError])
 
   // Enhanced hero images with better titles/subtitles matching ShopCollection style
   const heroImages = [
@@ -319,18 +289,24 @@ const Home = () => {
                       </Button>
                     </div>
                     
-                    {/* Category Stats - Clear Metrics */}
+                    {/* Category Stats - Dynamic from Real Data */}
                     <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/20">
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white">200+</div>
+                        <div className="text-3xl font-bold text-white">
+                          {allProducts.length > 0 ? allProducts.filter(p => p.category === 'denim').length : '50+'}
+                        </div>
                         <div className="text-sm text-white/70">Premium Denim</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white">150+</div>
+                        <div className="text-3xl font-bold text-white">
+                          {allProducts.length > 0 ? allProducts.filter(p => p.category === 'tshirt').length : '30+'}
+                        </div>
                         <div className="text-sm text-white/70">Luxury T-Shirts</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white">100+</div>
+                        <div className="text-3xl font-bold text-white">
+                          {allProducts.length > 0 ? allProducts.filter(p => p.category === 'shoes').length : '25+'}
+                        </div>
                         <div className="text-sm text-white/70">Designer Shoes</div>
                       </div>
                     </div>
@@ -465,9 +441,9 @@ const Home = () => {
                 </p>
               </div>
 
-              {/* Products Grid */}
+              {/* Products Grid - All from Admin Dashboard */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                {sampleProducts.map((product, index) => (
+                {contemporaryProducts.length > 0 ? contemporaryProducts.map((product, index) => (
                   <div
                     key={product._id}
                     className="group transition-all duration-700 opacity-100 translate-y-0"
@@ -479,7 +455,7 @@ const Home = () => {
                       {/* Product Image */}
                       <div className="relative aspect-square overflow-hidden">
                         <img
-                          src={product.image}
+                          src={product.imageURL}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
@@ -492,8 +468,8 @@ const Home = () => {
                               id: product._id,
                               name: product.name,
                               price: product.price,
-                              image: product.image,
-                              category: 'clothing'
+                              image: product.imageURL,
+                              category: product.category || 'clothing'
                             })}
                           >
                             <ShoppingBag className="w-4 h-4 mr-2" />
@@ -522,8 +498,8 @@ const Home = () => {
                             id: product._id,
                             name: product.name,
                             price: product.price,
-                            image: product.image,
-                            category: 'clothing'
+                            image: product.imageURL,
+                            category: product.category || 'clothing'
                           })}
                         >
                           Add to Cart
@@ -532,7 +508,12 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  <div className="col-span-full text-center py-20">
+                    <div className="text-gray-500 text-lg mb-4">No products available</div>
+                    <p className="text-gray-400">Admin needs to add products to the dashboard</p>
+                  </div>
+                )}
               </div>
 
               {/* View All Button */}
@@ -570,13 +551,13 @@ const Home = () => {
                 </p>
               </div>
 
-              {/* Featured Products Grid */}
+              {/* Featured Products Grid - From Admin Dashboard */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sampleProducts.slice(0, 3).map((product) => (
+                {premiumCollectionProducts.length > 0 ? premiumCollectionProducts.map((product) => (
                   <div key={product._id} className="group cursor-pointer border-gray-200 hover:shadow-xl transition-all duration-300">
                     <div className="relative overflow-hidden rounded-t-lg bg-gray-50">
                       <img
-                        src={product.image}
+                        src={product.imageURL}
                         alt={product.name}
                         className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -624,8 +605,8 @@ const Home = () => {
                             id: product._id,
                             name: product.name,
                             price: product.price,
-                            image: product.image,
-                            category: 'clothing'
+                            image: product.imageURL,
+                            category: product.category || 'clothing'
                           })}
                         >
                           Add to Cart
@@ -633,7 +614,12 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  <div className="col-span-full text-center py-20">
+                    <div className="text-gray-500 text-lg mb-4">No premium products available</div>
+                    <p className="text-gray-400">Admin needs to add products to the dashboard</p>
+                  </div>
+                )}
               </div>
 
               {/* View All Button */}
@@ -678,10 +664,10 @@ const Home = () => {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                     />
-                    <p className="text-gray-600 font-medium">Loading featured products...</p>
+                    <p className="text-gray-600 font-medium">Loading products from admin dashboard...</p>
                   </motion.div>
                 </div>
-              ) : (
+              ) : displayProducts.length > 0 ? (
                 <motion.div 
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
                   initial={{ opacity: 0, y: 30 }}
@@ -692,6 +678,11 @@ const Home = () => {
                     <ModernProductCard key={product._id} product={product} />
                   ))}
                 </motion.div>
+              ) : (
+                <div className="text-center py-20">
+                  <div className="text-gray-500 text-lg mb-4">No featured products available</div>
+                  <p className="text-gray-400">Admin needs to add products and mark them as featured</p>
+                </div>
               )}
 
               <div className="text-center mt-12">
