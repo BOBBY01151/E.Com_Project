@@ -24,6 +24,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import AdminProducts from './pages/AdminProducts'
 import AdminOrders from './pages/AdminOrders'
 import AddProduct from './pages/AddProduct'
+import ProductEdit from './pages/ProductEdit'
 
 // FigmaUI Components
 import { ShoppingCartPage } from './FigmaUI/src/components/ShoppingCartPage'
@@ -168,6 +169,11 @@ function App() {
           <Route path="/admin/products/new" element={
             <ProtectedRoute adminOnly>
               <AddProduct />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/products/:id" element={
+            <ProtectedRoute adminOnly>
+              <ProductEdit />
             </ProtectedRoute>
           } />
           <Route path="/admin/orders" element={

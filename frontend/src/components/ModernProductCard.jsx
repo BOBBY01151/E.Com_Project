@@ -17,8 +17,8 @@ const ModernProductCard = ({ product }) => {
       id: product._id,
       name: product.name,
       price: product.price,
-      image: product.image,
-      category: 'clothing'
+      image: product.imageURL || product.image,
+      category: product.category || 'clothing'
     });
   };
 
@@ -45,7 +45,7 @@ const ModernProductCard = ({ product }) => {
         {/* Product Image */}
         <div className="relative aspect-square overflow-hidden">
           <img
-            src={product.image}
+            src={product.imageURL || product.image}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
@@ -92,12 +92,17 @@ const ModernProductCard = ({ product }) => {
           </div>
 
           {/* Rating */}
-          {product.rating && (
+          {(product.rating || product.numReviews) && (
             <div className="absolute bottom-4 left-4 flex items-center space-x-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               <span className="text-sm font-medium text-foreground">
-                {product.rating}
+                {product.rating || 0}
               </span>
+              {product.numReviews && (
+                <span className="text-xs text-muted-foreground">
+                  ({product.numReviews})
+                </span>
+              )}
             </div>
           )}
         </div>
