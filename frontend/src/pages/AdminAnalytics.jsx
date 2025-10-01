@@ -220,29 +220,20 @@ const AdminAnalytics = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
+      {/* Header Section */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-6">
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/admin"
-                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Back to Dashboard
-              </Link>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-                <p className="text-gray-600 mt-1">
-                  Real-time insights into your store performance
-                </p>
-              </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+              <p className="text-gray-600 mt-1">
+                Welcome back! Here's your store performance analytics.
+              </p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
                 <p className="text-sm text-gray-500">Last Updated</p>
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-lg font-semibold text-gray-900">
                   {lastUpdate.toLocaleTimeString()}
                 </p>
               </div>
@@ -251,6 +242,7 @@ const AdminAnalytics = () => {
                 disabled={isRefreshing}
                 variant="outline"
                 size="sm"
+                className="text-gray-600 hover:text-gray-900"
               >
                 {isRefreshing ? (
                   <RefreshCw className="h-4 w-4 animate-spin mr-2" />
@@ -272,35 +264,36 @@ const AdminAnalytics = () => {
           className="space-y-8"
         >
           {/* Key Metrics */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {keyMetrics.map((metric, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
                 whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-r ${metric.color} shadow-lg`}>
-                      <metric.icon className="h-6 w-6 text-white" />
+                <div className="group block bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-r ${metric.color} shadow-lg`}>
+                        <metric.icon className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">{metric.title}</p>
+                        <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">{metric.title}</p>
-                      <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
-                    </div>
+                    <Badge 
+                      variant={metric.changeType === 'positive' ? 'default' : 'destructive'}
+                      className="text-xs"
+                    >
+                      {metric.changeType === 'positive' ? (
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                      ) : (
+                        <TrendingDown className="h-3 w-3 mr-1" />
+                      )}
+                      {metric.change}
+                    </Badge>
                   </div>
-                  <Badge 
-                    variant={metric.changeType === 'positive' ? 'default' : 'destructive'}
-                    className="text-xs"
-                  >
-                    {metric.changeType === 'positive' ? (
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                    ) : (
-                      <TrendingDown className="h-3 w-3 mr-1" />
-                    )}
-                    {metric.change}
-                  </Badge>
                 </div>
               </motion.div>
             ))}
@@ -309,287 +302,289 @@ const AdminAnalytics = () => {
           {/* Charts Row 1 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Sales Trend */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <LineChart className="h-5 w-5 text-blue-600" />
-                      <span>Sales Trend</span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">7D</Button>
-                      <Button variant="outline" size="sm">30D</Button>
-                      <Button variant="outline" size="sm">1Y</Button>
-                    </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={salesData}>
-                      <defs>
-                        <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="date" stroke="#6B7280" />
-                      <YAxis stroke="#6B7280" />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'white', 
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }} 
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="sales" 
-                        stroke="#3B82F6" 
-                        fillOpacity={1} 
-                        fill="url(#salesGradient)"
-                        strokeWidth={3}
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Sales Trend</h2>
+                  <div className="flex space-x-2">
+                    <Button variant="outline" size="sm">7D</Button>
+                    <Button variant="outline" size="sm">30D</Button>
+                    <Button variant="outline" size="sm">1Y</Button>
+                  </div>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={salesData}>
+                    <defs>
+                      <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="date" stroke="#6B7280" />
+                    <YAxis stroke="#6B7280" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }} 
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="sales" 
+                      stroke="#3B82F6" 
+                      fillOpacity={1} 
+                      fill="url(#salesGradient)"
+                      strokeWidth={3}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
 
             {/* Revenue Chart */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center space-x-2">
-                    <BarChart className="h-5 w-5 text-green-600" />
-                    <span>Revenue Overview</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <RechartsBarChart data={salesData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="date" stroke="#6B7280" />
-                      <YAxis stroke="#6B7280" />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'white', 
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }} 
-                      />
-                      <Bar 
-                        dataKey="revenue" 
-                        fill="#10B981" 
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </RechartsBarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Revenue Overview</h2>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <RechartsBarChart data={salesData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="date" stroke="#6B7280" />
+                    <YAxis stroke="#6B7280" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }} 
+                    />
+                    <Bar 
+                      dataKey="revenue" 
+                      fill="#10B981" 
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </RechartsBarChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
           </div>
 
           {/* Charts Row 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Product Performance */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center space-x-2">
-                    <PieChart className="h-5 w-5 text-purple-600" />
-                    <span>Top Products</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <RechartsBarChart data={productPerformanceData} layout="horizontal">
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis type="number" stroke="#6B7280" />
-                      <YAxis dataKey="name" type="category" stroke="#6B7280" />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'white', 
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }} 
-                      />
-                      <Bar dataKey="sales" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
-                    </RechartsBarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Top Products</h2>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <RechartsBarChart data={productPerformanceData} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis type="number" stroke="#6B7280" />
+                    <YAxis dataKey="name" type="category" stroke="#6B7280" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }} 
+                    />
+                    <Bar dataKey="sales" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+                  </RechartsBarChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
 
             {/* Category Distribution */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center space-x-2">
-                    <PieChart className="h-5 w-5 text-orange-600" />
-                    <span>Category Distribution</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <RechartsPieChart>
-                      <Pie
-                        data={categoryData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {categoryData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'white', 
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }} 
-                      />
-                    </RechartsPieChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Category Distribution</h2>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <RechartsPieChart>
+                    <Pie
+                      data={categoryData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {categoryData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }} 
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
           </div>
 
           {/* Charts Row 3 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Traffic Sources */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center space-x-2">
-                    <Activity className="h-5 w-5 text-indigo-600" />
-                    <span>Traffic Sources</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {trafficData.map((source, index) => (
-                      <motion.div
-                        key={source.source}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
-                          <span className="font-medium text-gray-900">{source.source}</span>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                          <span className="text-sm text-gray-600">{source.visitors} visitors</span>
-                          <Badge variant="outline">{source.percentage}%</Badge>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.4 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Traffic Sources</h2>
+                </div>
+                <div className="space-y-4">
+                  {trafficData.map((source, index) => (
+                    <motion.div
+                      key={source.source}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
+                        <span className="font-medium text-gray-900">{source.source}</span>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <span className="text-sm text-gray-600">{source.visitors} visitors</span>
+                        <Badge variant="outline">{source.percentage}%</Badge>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
 
             {/* Performance Metrics */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-white rounded-2xl shadow-lg border border-gray-100">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center space-x-2">
-                    <Zap className="h-5 w-5 text-yellow-600" />
-                    <span>Performance Metrics</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-green-100 rounded-lg">
-                          <CheckCircle className="h-5 w-5 text-green-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">Customer Satisfaction</p>
-                          <p className="text-sm text-gray-600">Based on reviews</p>
-                        </div>
+            <motion.div 
+              variants={itemVariants}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.6 }}
+            >
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-gray-900">Performance Metrics</h2>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-green-100 rounded-lg">
+                        <CheckCircle className="h-5 w-5 text-green-600" />
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">{customerSatisfaction}</p>
-                        <div className="flex items-center text-green-600">
-                          <Star className="h-4 w-4 fill-current" />
-                          <Star className="h-4 w-4 fill-current" />
-                          <Star className="h-4 w-4 fill-current" />
-                          <Star className="h-4 w-4 fill-current" />
-                          <Star className="h-4 w-4 fill-current" />
-                        </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Customer Satisfaction</p>
+                        <p className="text-sm text-gray-600">Based on reviews</p>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                          <Eye className="h-5 w-5 text-blue-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">Page Views</p>
-                          <p className="text-sm text-gray-600">Last 30 days</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-blue-600">24.5K</p>
-                        <p className="text-sm text-green-600">+12.3%</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                          <Users className="h-5 w-5 text-purple-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">New Customers</p>
-                          <p className="text-sm text-gray-600">This month</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-purple-600">1,234</p>
-                        <p className="text-sm text-green-600">+8.7%</p>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-green-600">{customerSatisfaction}</p>
+                      <div className="flex items-center text-green-600">
+                        <Star className="h-4 w-4 fill-current" />
+                        <Star className="h-4 w-4 fill-current" />
+                        <Star className="h-4 w-4 fill-current" />
+                        <Star className="h-4 w-4 fill-current" />
+                        <Star className="h-4 w-4 fill-current" />
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <Eye className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Page Views</p>
+                        <p className="text-sm text-gray-600">Last 30 days</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-blue-600">24.5K</p>
+                      <p className="text-sm text-green-600">+12.3%</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-purple-100 rounded-lg">
+                        <Users className="h-5 w-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">New Customers</p>
+                        <p className="text-sm text-gray-600">This month</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-purple-600">1,234</p>
+                      <p className="text-sm text-green-600">+8.7%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
 
           {/* Auto-refresh indicator */}
           <motion.div 
             variants={itemVariants}
-            className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.8 }}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Clock className="h-5 w-5 text-green-600" />
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <Clock className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Auto-refresh Active</p>
+                    <p className="text-sm text-gray-600">Data updates every 5 minutes</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-900">Auto-refresh Active</p>
-                  <p className="text-sm text-gray-600">Data updates every 5 minutes</p>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-gray-600">Live</span>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-600">Live</span>
               </div>
             </div>
           </motion.div>

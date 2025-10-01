@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { toast } from 'react-hot-toast'
+import { Button } from '../components/ui/button'
+import { Badge } from '../components/ui/badge'
 import { 
   ArrowLeft, 
   Upload, 
@@ -15,7 +18,12 @@ import {
   FileText,
   Layers,
   Palette,
-  Ruler
+  Ruler,
+  CheckCircle,
+  AlertCircle,
+  Star,
+  Eye,
+  Zap
 } from 'lucide-react'
 
 const AddProduct = () => {
@@ -136,341 +144,413 @@ const AddProduct = () => {
 
   const currentCategory = categories.find(cat => cat.id === activeTab)
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <button
-              onClick={() => navigate('/admin')}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-              Back to Dashboard
-            </button>
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
-          <p className="text-gray-600 mt-2">Create a new product for your store</p>
-        </div>
-
-        {/* Category Tabs */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Product Category</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => {
-                  setActiveTab(category.id)
-                  handleInputChange('category', category.id)
-                }}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                  activeTab === category.id
-                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                    : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                }`}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Header Section */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
+              <p className="text-gray-600 mt-1">
+                Create a new product for your store with detailed specifications.
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button
+                onClick={() => navigate('/admin')}
+                variant="outline"
+                size="sm"
+                className="text-gray-600 hover:text-gray-900"
               >
-                <div className="text-center">
-                  <div className="text-3xl mb-2">{category.icon}</div>
-                  <div className="font-medium">{category.name}</div>
-                </div>
-              </button>
-            ))}
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Product Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Basic Information */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              Basic Information
-            </h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="space-y-8"
+        >
+
+          {/* Category Tabs */}
+          <motion.div variants={itemVariants}>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Product Category</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {categories.map((category) => (
+                  <motion.button
+                    key={category.id}
+                    onClick={() => {
+                      setActiveTab(category.id)
+                      handleInputChange('category', category.id)
+                    }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`p-6 rounded-xl border-2 transition-all duration-300 ${
+                      activeTab === category.id
+                        ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-lg'
+                        : 'border-gray-200 hover:border-gray-300 text-gray-700 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-4xl mb-3">{category.icon}</div>
+                      <div className="font-semibold text-lg">{category.name}</div>
+                      <div className="text-sm text-gray-500 mt-1">
+                        {category.fields.length} specifications
+                      </div>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Product Form */}
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Basic Information */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Package className="h-5 w-5 text-blue-600" />
+                  </div>
+                  Basic Information
+                </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Product Name *
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter product name"
-                  required
-                />
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Product Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter product name"
+                      required
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Brand
-                </label>
-                <input
-                  type="text"
-                  value={formData.brand}
-                  onChange={(e) => handleInputChange('brand', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter brand name"
-                />
-              </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Brand
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.brand}
+                      onChange={(e) => handleInputChange('brand', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter brand name"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price ($) *
-                </label>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                  <input
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) => handleInputChange('price', e.target.value)}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0.00"
-                    step="0.01"
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Price ($) *
+                    </label>
+                    <div className="relative">
+                      <DollarSign className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+                      <input
+                        type="number"
+                        value={formData.price}
+                        onChange={(e) => handleInputChange('price', e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="0.00"
+                        step="0.01"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Stock Quantity
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.stock}
+                      onChange={(e) => handleInputChange('stock', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter stock quantity"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Discount (%)
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.discount}
+                      onChange={(e) => handleInputChange('discount', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter discount percentage"
+                      min="0"
+                      max="100"
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="featured"
+                      checked={formData.featured}
+                      onChange={(e) => handleInputChange('featured', e.target.checked)}
+                      className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="featured" className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      Featured Product
+                    </label>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description *
+                  </label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="Enter product description"
                     required
                   />
                 </div>
               </div>
+            </motion.div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Stock Quantity
-                </label>
-                <input
-                  type="number"
-                  value={formData.stock}
-                  onChange={(e) => handleInputChange('stock', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter stock quantity"
-                />
-              </div>
+            {/* Images */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <ImageIcon className="h-5 w-5 text-green-600" />
+                  </div>
+                  Product Images
+                </h2>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Discount (%)
-                </label>
-                <input
-                  type="number"
-                  value={formData.discount}
-                  onChange={(e) => handleInputChange('discount', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter discount percentage"
-                  min="0"
-                  max="100"
-                />
-              </div>
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Main Image URL
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.imageURL}
+                      onChange={(e) => handleInputChange('imageURL', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="https://example.com/image.jpg"
+                    />
+                  </div>
 
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={formData.featured}
-                  onChange={(e) => handleInputChange('featured', e.target.checked)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="featured" className="ml-2 block text-sm text-gray-900">
-                  Featured Product
-                </label>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description *
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter product description"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Images */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <ImageIcon className="h-5 w-5" />
-              Product Images
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Main Image URL
-                </label>
-                <input
-                  type="url"
-                  value={formData.imageURL}
-                  onChange={(e) => handleInputChange('imageURL', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Additional Images
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="url"
-                    placeholder="Add image URL"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleImageAdd(e.target.value)
-                        e.target.value = ''
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      const input = e.target.previousElementSibling
-                      handleImageAdd(input.value)
-                      input.value = ''
-                    }}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-
-              {formData.images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {formData.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image}
-                        alt={`Product ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-md"
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/150'
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Additional Images
+                    </label>
+                    <div className="flex gap-3">
+                      <input
+                        type="url"
+                        placeholder="Add image URL"
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            handleImageAdd(e.target.value)
+                            e.target.value = ''
+                          }
                         }}
                       />
-                      <button
+                      <Button
                         type="button"
-                        onClick={() => handleImageRemove(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                        onClick={(e) => {
+                          const input = e.target.previousElementSibling
+                          handleImageAdd(input.value)
+                          input.value = ''
+                        }}
+                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700"
                       >
-                        <X className="h-3 w-3" />
-                      </button>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add
+                      </Button>
+                    </div>
+                  </div>
+
+                  {formData.images.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {formData.images.map((image, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={image}
+                            alt={`Product ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg shadow-sm"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/150'
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleImageRemove(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Sizes & Colors */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="p-2 bg-purple-100 rounded-lg">
+                    <Layers className="h-5 w-5 text-purple-600" />
+                  </div>
+                  Available Sizes & Colors
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Sizes */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-4">
+                      Available Sizes
+                    </label>
+                    <div className="grid grid-cols-4 gap-3">
+                      {sizeOptions[currentCategory.id].map((size) => (
+                        <motion.button
+                          key={size}
+                          type="button"
+                          onClick={() => handleSizeToggle(size)}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`px-4 py-3 text-sm font-medium rounded-xl border-2 transition-all duration-200 ${
+                            formData.sizes.includes(size)
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                              : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500 hover:shadow-md'
+                          }`}
+                        >
+                          {size}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Colors */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-4">
+                      Available Colors
+                    </label>
+                    <div className="grid grid-cols-4 gap-3">
+                      {colorOptions.map((color) => (
+                        <motion.button
+                          key={color}
+                          type="button"
+                          onClick={() => handleColorToggle(color)}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`px-4 py-3 text-sm font-medium rounded-xl border-2 transition-all duration-200 ${
+                            formData.colors.includes(color)
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                              : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500 hover:shadow-md'
+                          }`}
+                        >
+                          {color}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Specifications */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="p-2 bg-orange-100 rounded-lg">
+                    <Ruler className="h-5 w-5 text-orange-600" />
+                  </div>
+                  Product Specifications
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {currentCategory.fields.map((field) => (
+                    <div key={field}>
+                      <label className="block text-sm font-medium text-gray-700 mb-2 capitalize">
+                        {field.replace('_', ' ')}
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.specifications[field] || ''}
+                        onChange={(e) => handleSpecificationChange(field, e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder={`Enter ${field.replace('_', ' ')}`}
+                      />
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            </motion.div>
 
-          {/* Sizes & Colors */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <Layers className="h-5 w-5" />
-              Available Sizes & Colors
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Sizes */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Available Sizes
-                </label>
-                <div className="grid grid-cols-4 gap-2">
-                  {sizeOptions[currentCategory.id].map((size) => (
-                    <button
-                      key={size}
-                      type="button"
-                      onClick={() => handleSizeToggle(size)}
-                      className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
-                        formData.sizes.includes(size)
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500'
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+            {/* Submit Button */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="flex items-center justify-between">
+                  <Button
+                    type="button"
+                    onClick={() => navigate('/admin')}
+                    variant="outline"
+                    className="px-6 py-3"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="px-8 py-3 bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+                  >
+                    <Save className="h-4 w-4" />
+                    Add Product
+                  </Button>
                 </div>
               </div>
-
-              {/* Colors */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Available Colors
-                </label>
-                <div className="grid grid-cols-4 gap-2">
-                  {colorOptions.map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => handleColorToggle(color)}
-                      className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
-                        formData.colors.includes(color)
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500'
-                      }`}
-                    >
-                      {color}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Specifications */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <Ruler className="h-5 w-5" />
-              Product Specifications
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {currentCategory.fields.map((field) => (
-                <div key={field}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 capitalize">
-                    {field.replace('_', ' ')}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.specifications[field] || ''}
-                    onChange={(e) => handleSpecificationChange(field, e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={`Enter ${field.replace('_', ' ')}`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => navigate('/admin')}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center gap-2"
-              >
-                <Save className="h-4 w-4" />
-                Add Product
-              </button>
-            </div>
-          </div>
-        </form>
+            </motion.div>
+          </form>
+        </motion.div>
       </div>
     </div>
   )
