@@ -22,7 +22,7 @@ const sampleProducts = [
     name: 'Classic White T-Shirt',
     description: 'Premium cotton classic white t-shirt perfect for everyday wear. Comfortable fit and breathable fabric.',
     price: 29.99,
-    category: 't-shirts',
+    category: 'tshirt',
     imageURL: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500',
     stock: 50,
     sizes: ['S', 'M', 'L', 'XL'],
@@ -32,10 +32,10 @@ const sampleProducts = [
     discount: 0
   },
   {
-    name: 'Denim Jacket',
+    name: 'Premium Denim Jacket',
     description: 'Classic denim jacket with a modern fit. Perfect for layering in any season.',
     price: 89.99,
-    category: 'clothing',
+    category: 'denim',
     imageURL: 'https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500',
     stock: 25,
     sizes: ['S', 'M', 'L', 'XL'],
@@ -58,10 +58,10 @@ const sampleProducts = [
     discount: 15
   },
   {
-    name: 'Casual Hoodie',
-    description: 'Soft and comfortable hoodie perfect for casual outings. Available in multiple colors.',
+    name: 'Comfort T-Shirt',
+    description: 'Soft and comfortable t-shirt perfect for casual outings. Available in multiple colors.',
     price: 59.99,
-    category: 'clothing',
+    category: 'tshirt',
     imageURL: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500',
     stock: 40,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
@@ -87,7 +87,7 @@ const sampleProducts = [
     name: 'Graphic T-Shirt',
     description: 'Trendy graphic t-shirt with unique artwork. Made from 100% organic cotton.',
     price: 34.99,
-    category: 't-shirts',
+    category: 'tshirt',
     imageURL: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500',
     stock: 35,
     sizes: ['S', 'M', 'L', 'XL'],
@@ -97,15 +97,15 @@ const sampleProducts = [
     discount: 5
   },
   {
-    name: 'Formal Shirt',
-    description: 'Elegant formal shirt suitable for business meetings and special occasions.',
+    name: 'Designer Denim Jeans',
+    description: 'Elegant designer jeans suitable for both casual and semi-formal occasions.',
     price: 79.99,
-    category: 'clothing',
+    category: 'denim',
     imageURL: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500',
     stock: 30,
     sizes: ['S', 'M', 'L', 'XL'],
     brand: 'BusinessWear',
-    colors: ['White', 'Blue', 'Pink'],
+    colors: ['Blue', 'Black'],
     featured: false,
     discount: 0
   },
@@ -121,6 +121,32 @@ const sampleProducts = [
     colors: ['Brown', 'Black'],
     featured: true,
     discount: 25
+  },
+  {
+    name: 'Vintage Denim Shorts',
+    description: 'Classic vintage-style denim shorts perfect for summer. Comfortable and stylish.',
+    price: 49.99,
+    category: 'denim',
+    imageURL: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500',
+    stock: 45,
+    sizes: ['S', 'M', 'L', 'XL'],
+    brand: 'VintageStyle',
+    colors: ['Blue', 'Light Blue'],
+    featured: false,
+    discount: 15
+  },
+  {
+    name: 'Basketball Sneakers',
+    description: 'High-performance basketball sneakers with excellent grip and ankle support.',
+    price: 119.99,
+    category: 'shoes',
+    imageURL: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500',
+    stock: 25,
+    sizes: ['7', '8', '9', '10', '11', '12'],
+    brand: 'SportsPro',
+    colors: ['White', 'Red', 'Black'],
+    featured: true,
+    discount: 0
   }
 ];
 

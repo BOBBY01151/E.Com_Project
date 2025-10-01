@@ -15,7 +15,7 @@ const Products = () => {
   const dispatch = useDispatch()
   const { products, isLoading, page, pages, total } = useSelector((state) => state.products)
 
-  const categories = ['clothing', 'shoes', 't-shirts', 'accessories']
+  const categories = ['shoes', 'tshirt', 'denim']
 
   useEffect(() => {
     const params = {}
@@ -108,7 +108,7 @@ const Products = () => {
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                  {category === 'tshirt' ? 'T-Shirts' : category.charAt(0).toUpperCase() + category.slice(1)}
                 </button>
               ))}
             </div>

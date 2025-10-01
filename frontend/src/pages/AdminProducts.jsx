@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
+import { getProducts } from '../store/slices/productSlice'
 import { 
   ArrowLeft, 
   Search, 
@@ -27,9 +29,9 @@ import {
 
 const AdminProducts = () => {
   const navigate = useNavigate()
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
+  const { products: storeProducts, isLoading } = useSelector((state) => state.products)
   const [filteredProducts, setFilteredProducts] = useState([])
-  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -37,171 +39,19 @@ const AdminProducts = () => {
   const [viewMode, setViewMode] = useState('grid')
   const [selectedProducts, setSelectedProducts] = useState(new Set())
 
-  // Mock products data for UI design
-  const mockProducts = [
-    {
-      _id: 'PROD-001',
-      name: 'Premium Denim Jeans',
-      description: 'High-quality denim jeans made from authentic Japanese selvedge construction. Perfect fit with premium comfort.',
-      price: 89.99,
-      originalPrice: 119.99,
-      category: 'denim',
-      brand: 'Luxury Denim Co.',
-      images: [
-        'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-        'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-      stock: 45,
-      sizes: ['28', '30', '32', '34', '36'],
-      colors: ['Blue', 'Black'],
-      status: 'active',
-      featured: true,
-      rating: 4.8,
-      reviews: 124,
-      createdAt: '2024-01-10T10:30:00Z',
-      updatedAt: '2024-01-15T14:20:00Z',
-      tags: ['premium', 'denim', 'selvedge', 'authentic']
-    },
-    {
-      _id: 'PROD-002',
-      name: 'Classic White T-Shirt',
-      description: 'Essential white t-shirt crafted from 100% organic cotton. Soft, comfortable, and perfect for everyday wear.',
-      price: 24.99,
-      originalPrice: 34.99,
-      category: 'tshirt',
-      brand: 'Organic Basics',
-      images: [
-        'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-        'https://images.unsplash.com/photo-1583743814966-8936f37f7f8e?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-      stock: 120,
-      sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-      colors: ['White', 'Black', 'Gray'],
-      status: 'active',
-      featured: false,
-      rating: 4.6,
-      reviews: 89,
-      createdAt: '2024-01-08T09:15:00Z',
-      updatedAt: '2024-01-12T11:45:00Z',
-      tags: ['organic', 'cotton', 'essential', 'basic']
-    },
-    {
-      _id: 'PROD-003',
-      name: 'Designer Sneakers',
-      description: 'Luxury designer sneakers with premium leather construction. Comfortable and stylish for any occasion.',
-      price: 159.99,
-      originalPrice: 199.99,
-      category: 'shoes',
-      brand: 'Premium Footwear',
-      images: [
-        'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400',
-        'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400',
-      stock: 28,
-      sizes: ['7', '8', '9', '10', '11', '12'],
-      colors: ['White', 'Black'],
-      status: 'active',
-      featured: true,
-      rating: 4.9,
-      reviews: 156,
-      createdAt: '2024-01-05T14:20:00Z',
-      updatedAt: '2024-01-14T16:30:00Z',
-      tags: ['luxury', 'leather', 'designer', 'premium']
-    },
-    {
-      _id: 'PROD-004',
-      name: 'Luxury Hoodie',
-      description: 'Premium hoodie made from the finest materials. Ultra-soft interior with durable exterior construction.',
-      price: 79.99,
-      originalPrice: 99.99,
-      category: 'tshirt',
-      brand: 'Comfort Wear',
-      images: [
-        'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400',
-        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400',
-      stock: 67,
-      sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['Black', 'Gray', 'Navy'],
-      status: 'active',
-      featured: false,
-      rating: 4.7,
-      reviews: 73,
-      createdAt: '2024-01-03T12:10:00Z',
-      updatedAt: '2024-01-11T09:25:00Z',
-      tags: ['luxury', 'hoodie', 'comfort', 'premium']
-    },
-    {
-      _id: 'PROD-005',
-      name: 'Premium Jacket',
-      description: 'High-end jacket crafted from premium materials. Perfect for both casual and formal occasions.',
-      price: 199.99,
-      originalPrice: 249.99,
-      category: 'denim',
-      brand: 'Style Masters',
-      images: [
-        'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',
-        'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',
-      stock: 15,
-      sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['Black', 'Brown', 'Navy'],
-      status: 'low-stock',
-      featured: true,
-      rating: 4.8,
-      reviews: 92,
-      createdAt: '2024-01-01T08:45:00Z',
-      updatedAt: '2024-01-13T15:40:00Z',
-      tags: ['premium', 'jacket', 'formal', 'luxury']
-    },
-    {
-      _id: 'PROD-006',
-      name: 'Casual Shorts',
-      description: 'Comfortable casual shorts perfect for summer. Made from breathable cotton blend material.',
-      price: 39.99,
-      originalPrice: 49.99,
-      category: 'denim',
-      brand: 'Summer Style',
-      images: [
-        'https://images.unsplash.com/photo-1506629905607-3a6e7b5b5b5b?w=400',
-        'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400'
-      ],
-      mainImage: 'https://images.unsplash.com/photo-1506629905607-3a6e7b5b5b5b?w=400',
-      stock: 0,
-      sizes: ['28', '30', '32', '34', '36'],
-      colors: ['Blue', 'Khaki'],
-      status: 'out-of-stock',
-      featured: false,
-      rating: 4.4,
-      reviews: 45,
-      createdAt: '2023-12-28T16:20:00Z',
-      updatedAt: '2024-01-10T10:15:00Z',
-      tags: ['casual', 'shorts', 'summer', 'cotton']
-    }
-  ]
 
   useEffect(() => {
-    // Simulate loading products
-    setTimeout(() => {
-      setProducts(mockProducts)
-      setFilteredProducts(mockProducts)
-      setLoading(false)
-    }, 1000)
-  }, [])
+    dispatch(getProducts({ pageNumber: 1 }))
+  }, [dispatch])
 
   useEffect(() => {
-    let filtered = [...products]
+    let filtered = [...storeProducts]
 
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (product.brand && product.brand.toLowerCase().includes(searchTerm.toLowerCase())) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
@@ -213,7 +63,11 @@ const AdminProducts = () => {
 
     // Status filter
     if (statusFilter !== 'all') {
-      filtered = filtered.filter(product => product.status === statusFilter)
+      filtered = filtered.filter(product => {
+        if (product.stock === 0) return statusFilter === 'out-of-stock'
+        if (product.stock <= 10) return statusFilter === 'low-stock'
+        return statusFilter === 'active'
+      })
     }
 
     // Sort
@@ -234,23 +88,25 @@ const AdminProducts = () => {
         case 'stock-low':
           return a.stock - b.stock
         case 'rating-high':
-          return b.rating - a.rating
+          return (b.rating || 0) - (a.rating || 0)
         default:
           return 0
       }
     })
 
     setFilteredProducts(filtered)
-  }, [products, searchTerm, categoryFilter, statusFilter, sortBy])
+  }, [storeProducts, searchTerm, categoryFilter, statusFilter, sortBy])
 
-  const getStatusColor = (status) => {
-    const colors = {
-      'active': 'bg-green-100 text-green-800',
-      'low-stock': 'bg-yellow-100 text-yellow-800',
-      'out-of-stock': 'bg-red-100 text-red-800',
-      'inactive': 'bg-gray-100 text-gray-800'
-    }
-    return colors[status] || 'bg-gray-100 text-gray-800'
+  const getStatusColor = (product) => {
+    if (product.stock === 0) return 'bg-red-100 text-red-800'
+    if (product.stock <= 10) return 'bg-yellow-100 text-yellow-800'
+    return 'bg-green-100 text-green-800'
+  }
+
+  const getStatus = (product) => {
+    if (product.stock === 0) return 'out-of-stock'
+    if (product.stock <= 10) return 'low-stock'
+    return 'active'
   }
 
   const getCategoryIcon = (category) => {
@@ -288,24 +144,22 @@ const AdminProducts = () => {
   }
 
   const deleteProduct = (productId) => {
-    setProducts(prev => prev.filter(p => p._id !== productId))
+    // TODO: Implement actual delete API call
     toast.success('Product deleted successfully')
   }
 
   const toggleFeatured = (productId) => {
-    setProducts(prev => prev.map(p => 
-      p._id === productId ? { ...p, featured: !p.featured } : p
-    ))
+    // TODO: Implement actual featured toggle API call
     toast.success('Featured status updated')
   }
 
   const calculateStats = () => {
-    const totalProducts = products.length
-    const activeProducts = products.filter(p => p.status === 'active').length
-    const lowStockProducts = products.filter(p => p.status === 'low-stock').length
-    const outOfStockProducts = products.filter(p => p.status === 'out-of-stock').length
-    const featuredProducts = products.filter(p => p.featured).length
-    const totalRevenue = products.reduce((sum, p) => sum + (p.price * p.stock), 0)
+    const totalProducts = storeProducts.length
+    const activeProducts = storeProducts.filter(p => p.stock > 10).length
+    const lowStockProducts = storeProducts.filter(p => p.stock > 0 && p.stock <= 10).length
+    const outOfStockProducts = storeProducts.filter(p => p.stock === 0).length
+    const featuredProducts = storeProducts.filter(p => p.featured).length
+    const totalRevenue = storeProducts.reduce((sum, p) => sum + (p.price * p.stock), 0)
 
     return {
       totalProducts,
@@ -319,7 +173,7 @@ const AdminProducts = () => {
 
   const stats = calculateStats()
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -522,7 +376,7 @@ const AdminProducts = () => {
                 {/* Product Image */}
                 <div className="relative">
                   <img
-                    src={product.mainImage}
+                    src={product.imageURL}
                     alt={product.name}
                     className="w-full h-48 object-cover"
                   />
@@ -533,8 +387,8 @@ const AdminProducts = () => {
                         Featured
                       </span>
                     )}
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(product.status)}`}>
-                      {product.status.replace('-', ' ')}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(product)}`}>
+                      {getStatus(product).replace('-', ' ')}
                     </span>
                   </div>
                   <div className="absolute top-2 right-2">
@@ -557,19 +411,19 @@ const AdminProducts = () => {
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <span className="text-lg font-bold text-gray-900">{formatCurrency(product.price)}</span>
-                      {product.originalPrice > product.price && (
-                        <span className="text-sm text-gray-500 line-through">{formatCurrency(product.originalPrice)}</span>
+                      {product.discount > 0 && (
+                        <span className="text-sm text-green-600 font-medium">{product.discount}% OFF</span>
                       )}
                     </div>
                     <div className="flex items-center gap-1">
                       <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                      <span className="text-xs text-gray-600">{product.rating}</span>
+                      <span className="text-xs text-gray-600">{product.rating || 0}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                     <span>Stock: {product.stock}</span>
-                    <span>{product.reviews} reviews</span>
+                    <span>{product.numReviews || 0} reviews</span>
                   </div>
 
                   <div className="flex gap-2">
@@ -640,7 +494,7 @@ const AdminProducts = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <img
-                            src={product.mainImage}
+                            src={product.imageURL}
                             alt={product.name}
                             className="w-12 h-12 object-cover rounded-md"
                           />
@@ -658,22 +512,22 @@ const AdminProducts = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{formatCurrency(product.price)}</div>
-                        {product.originalPrice > product.price && (
-                          <div className="text-xs text-gray-500 line-through">{formatCurrency(product.originalPrice)}</div>
+                        {product.discount > 0 && (
+                          <div className="text-xs text-green-600 font-medium">{product.discount}% OFF</div>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{product.stock}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(product.status)}`}>
-                          {product.status.replace('-', ' ')}
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(product)}`}>
+                          {getStatus(product).replace('-', ' ')}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <Star className="h-3 w-3 text-yellow-400 fill-current mr-1" />
-                          <span className="text-sm text-gray-900">{product.rating}</span>
+                          <span className="text-sm text-gray-900">{product.rating || 0}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

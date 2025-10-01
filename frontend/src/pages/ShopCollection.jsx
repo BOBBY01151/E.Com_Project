@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import LoadingScreen from '../components/LoadingScreen'
 import { useCart } from '../FigmaUI/src/contexts/CartContext'
+import { getProducts } from '../store/slices/productSlice'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { 
@@ -198,10 +200,12 @@ const shoeProducts = [
 const allProducts = [...denimProducts, ...tshirtProducts, ...shoeProducts]
 
 const ShopCollection = () => {
+  const dispatch = useDispatch()
+  const { products: storeProducts, isLoading } = useSelector((state) => state.products)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [viewMode, setViewMode] = useState('grid')
   const [favorites, setFavorites] = useState(new Set())
-  const [filteredProducts, setFilteredProducts] = useState(allProducts)
+  const [filteredProducts, setFilteredProducts] = useState([])
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -230,6 +234,11 @@ const ShopCollection = () => {
       subtitle: 'Handcrafted leather with timeless design and premium materials'
     }
   ]
+
+  // Fetch products from Redux store
+  useEffect(() => {
+    dispatch(getProducts({ pageNumber: 1 }))
+  }, [dispatch])
 
   // Loading timer effect
   useEffect(() => {
@@ -260,30 +269,18 @@ const ShopCollection = () => {
   }, [])
 
   useEffect(() => {
-    let products = []
+    let products = [...storeProducts]
     
     // Filter by category
-    switch (selectedCategory) {
-      case 'denim':
-        products = [...denimProducts]
-        break
-      case 'tshirts':
-        products = [...tshirtProducts]
-        break
-      case 'shoes':
-        products = [...shoeProducts]
-        break
-      case 'all':
-      default:
-        products = [...allProducts]
-        break
+    if (selectedCategory !== 'all') {
+      products = products.filter(product => product.category === selectedCategory)
     }
     
     // Sort products by featured status (default behavior)
-    products = [...products].sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
+    products = [...products].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
     
     setFilteredProducts(products)
-  }, [selectedCategory])
+  }, [selectedCategory, storeProducts])
 
   const toggleFavorite = (productId) => {
     const newFavorites = new Set(favorites)
@@ -297,13 +294,13 @@ const ShopCollection = () => {
 
   const handleAddToCart = (product) => {
     addToCart({
-      id: product.id,
+      id: product._id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: product.imageURL,
       category: product.category,
-      size: product.size[0], // Default to first size
-      color: product.color
+      size: product.sizes?.[0] || 'M', // Default to first size or 'M'
+      color: product.colors?.[0] || 'Default'
     })
   }
 
@@ -311,22 +308,19 @@ const ShopCollection = () => {
     <Card className={`group overflow-hidden hover:shadow-xl transition-all duration-300 bg-white ${isListView ? 'flex' : ''}`}>
       <div className={`relative overflow-hidden ${isListView ? 'w-48 flex-shrink-0' : 'aspect-square'}`}>
         <img
-          src={product.image}
+          src={product.imageURL}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
         {/* Overlay badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {product.isNew && (
-            <Badge className="bg-black text-white">New</Badge>
-          )}
-          {product.isFeatured && (
+          {product.featured && (
             <Badge variant="outline" className="bg-white/90 text-black border-black">Featured</Badge>
           )}
-          {product.originalPrice && (
+          {product.discount > 0 && (
             <Badge variant="destructive" className="bg-red-500 text-white">
-              Sale
+              {product.discount}% OFF
             </Badge>
           )}
         </div>
@@ -337,9 +331,9 @@ const ShopCollection = () => {
             variant="ghost"
             size="icon"
             className="bg-white/90 hover:bg-white"
-            onClick={() => toggleFavorite(product.id)}
+            onClick={() => toggleFavorite(product._id)}
           >
-            <Heart className={`h-4 w-4 ${favorites.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+            <Heart className={`h-4 w-4 ${favorites.has(product._id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
           </Button>
           <Button
             variant="ghost"
@@ -359,13 +353,13 @@ const ShopCollection = () => {
               <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors">
                 {product.name}
               </h3>
-              <p className="text-sm text-gray-500 capitalize">{product.color}</p>
+              <p className="text-sm text-gray-500 capitalize">{product.brand}</p>
             </div>
             <div className="text-right">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm font-medium">{product.rating}</span>
-                <span className="text-xs text-gray-500">({product.reviews})</span>
+                <span className="text-sm font-medium">{product.rating || 0}</span>
+                <span className="text-xs text-gray-500">({product.numReviews || 0})</span>
               </div>
             </div>
           </div>
@@ -375,22 +369,22 @@ const ShopCollection = () => {
               <span className="text-lg font-bold text-gray-900">
                 ${product.price}
               </span>
-              {product.originalPrice && (
-                <span className="text-sm text-gray-500 line-through">
-                  ${product.originalPrice}
+              {product.discount > 0 && (
+                <span className="text-sm text-green-600 font-medium">
+                  {product.discount}% OFF
                 </span>
               )}
             </div>
             
             <div className="flex gap-1">
-              {product.size.slice(0, 3).map((size) => (
+              {product.sizes?.slice(0, 3).map((size) => (
                 <span key={size} className="text-xs bg-gray-100 px-2 py-1 rounded">
                   {size}
                 </span>
               ))}
-              {product.size.length > 3 && (
+              {product.sizes?.length > 3 && (
                 <span className="text-xs bg-gray-100 px-2 py-1 rounded">
-                  +{product.size.length - 3}
+                  +{product.sizes.length - 3}
                 </span>
               )}
             </div>
@@ -685,7 +679,7 @@ const ShopCollection = () => {
             onClick={() => setSelectedCategory('all')}
           >
             <div className="text-center">
-              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'all' ? 'text-yellow-400' : 'text-gray-900'}`}>{allProducts.length}</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'all' ? 'text-yellow-400' : 'text-gray-900'}`}>{storeProducts.length}</div>
               <div className={`text-sm font-medium ${selectedCategory === 'all' ? 'text-white/90' : 'text-gray-600'}`}>All Products</div>
             </div>
           </div>
@@ -699,22 +693,22 @@ const ShopCollection = () => {
             onClick={() => setSelectedCategory('denim')}
           >
             <div className="text-center">
-              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'denim' ? 'text-yellow-400' : 'text-gray-900'}`}>{denimProducts.length}</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'denim' ? 'text-yellow-400' : 'text-gray-900'}`}>{storeProducts.filter(p => p.category === 'denim').length}</div>
               <div className={`text-sm font-medium ${selectedCategory === 'denim' ? 'text-white/90' : 'text-gray-600'}`}>Premium Denim</div>
             </div>
           </div>
           
           <div 
             className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 backdrop-blur-lg shadow-xl ${
-              selectedCategory === 'tshirts' 
+              selectedCategory === 'tshirt' 
                 ? 'border-2 border-yellow-400 bg-yellow-400/20 text-white' 
                 : 'border border-white/20 bg-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 text-gray-900'
             }`}
-            onClick={() => setSelectedCategory('tshirts')}
+            onClick={() => setSelectedCategory('tshirt')}
           >
             <div className="text-center">
-              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'tshirts' ? 'text-yellow-400' : 'text-gray-900'}`}>{tshirtProducts.length}</div>
-              <div className={`text-sm font-medium ${selectedCategory === 'tshirts' ? 'text-white/90' : 'text-gray-600'}`}>Luxury T-Shirts</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'tshirt' ? 'text-yellow-400' : 'text-gray-900'}`}>{storeProducts.filter(p => p.category === 'tshirt').length}</div>
+              <div className={`text-sm font-medium ${selectedCategory === 'tshirt' ? 'text-white/90' : 'text-gray-600'}`}>Luxury T-Shirts</div>
             </div>
           </div>
           
@@ -727,7 +721,7 @@ const ShopCollection = () => {
             onClick={() => setSelectedCategory('shoes')}
           >
             <div className="text-center">
-              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'shoes' ? 'text-yellow-400' : 'text-gray-900'}`}>{shoeProducts.length}</div>
+              <div className={`text-3xl font-bold mb-2 ${selectedCategory === 'shoes' ? 'text-yellow-400' : 'text-gray-900'}`}>{storeProducts.filter(p => p.category === 'shoes').length}</div>
               <div className={`text-sm font-medium ${selectedCategory === 'shoes' ? 'text-white/90' : 'text-gray-600'}`}>Designer Shoes</div>
             </div>
           </div>
@@ -777,7 +771,7 @@ const ShopCollection = () => {
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 <span className="text-sm font-medium text-yellow-600 capitalize">
                   {selectedCategory === 'denim' ? 'Premium Denim' : 
-                   selectedCategory === 'tshirts' ? 'Luxury T-Shirts' : 
+                   selectedCategory === 'tshirt' ? 'Luxury T-Shirts' : 
                    selectedCategory === 'shoes' ? 'Designer Shoes' : selectedCategory}
                 </span>
               </div>
@@ -803,13 +797,13 @@ const ShopCollection = () => {
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
         ) : (
           <div className="space-y-4">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} isListView />
+              <ProductCard key={product._id} product={product} isListView />
             ))}
           </div>
         )}
